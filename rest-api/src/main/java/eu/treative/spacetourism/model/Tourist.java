@@ -4,7 +4,6 @@ package eu.treative.spacetourism.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -15,7 +14,6 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
 @Entity
 public class Tourist {
 
@@ -40,13 +38,31 @@ public class Tourist {
     private Date dob;
 
     @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {CascadeType.DETACH,
-                    CascadeType.MERGE,
-                    CascadeType.PERSIST,
-                    CascadeType.REFRESH})
+            cascade = {CascadeType.MERGE})
     @JoinTable(name = "tourist_flights",
             joinColumns = @JoinColumn(name = "tourist_id"),
             inverseJoinColumns = @JoinColumn(name = "flight_id"))
     private Set<Flight> flights = new HashSet<>();
 
+    public Tourist(@NotBlank String firstName, @NotBlank String lastName, Gender gender, String country, String remarks, Date dob) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.country = country;
+        this.remarks = remarks;
+        this.dob = dob;
+    }
+
+    @Override
+    public String toString() {
+        return "Tourist{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", gender=" + gender +
+                ", country='" + country + '\'' +
+                ", remarks='" + remarks + '\'' +
+                ", dob=" + dob +
+                '}';
+    }
 }
