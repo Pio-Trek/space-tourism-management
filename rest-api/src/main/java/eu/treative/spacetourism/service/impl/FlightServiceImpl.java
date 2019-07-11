@@ -1,5 +1,6 @@
 package eu.treative.spacetourism.service.impl;
 
+import eu.treative.spacetourism.exception.ResourceNotFoundException;
 import eu.treative.spacetourism.model.Flight;
 import eu.treative.spacetourism.repository.FlightRepository;
 import eu.treative.spacetourism.service.FlightService;
@@ -29,7 +30,7 @@ public class FlightServiceImpl implements FlightService {
     @Override
     public Flight getFlight(Long id) {
         log.info("Getting flight with id: {}", id);
-        return repository.findById(id).orElse(null); //add exception when not found
+        return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Flight", "id", id));
     }
 
     @Override
@@ -47,7 +48,7 @@ public class FlightServiceImpl implements FlightService {
             log.info("Updating {}", updatedFlight);
             return updatedFlight;
         } else {
-            return null; //add exception when not found
+            throw new ResourceNotFoundException("Flight", "id", id);
         }
     }
 
@@ -58,7 +59,7 @@ public class FlightServiceImpl implements FlightService {
             log.info("Deleting flight with id: {}", id);
         } else {
             log.info("Flight to delete with id {} is not found", id);
-            //add exception when not found
+            throw new ResourceNotFoundException("Flight", "id", id);
         }
     }
 }

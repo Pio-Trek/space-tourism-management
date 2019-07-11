@@ -1,5 +1,6 @@
 package eu.treative.spacetourism.service.impl;
 
+import eu.treative.spacetourism.exception.ResourceNotFoundException;
 import eu.treative.spacetourism.model.Tourist;
 import eu.treative.spacetourism.repository.TouristRepository;
 import eu.treative.spacetourism.service.TouristService;
@@ -29,7 +30,7 @@ public class TouristServiceImpl implements TouristService {
     @Override
     public Tourist getTourist(Long id) {
         log.info("Getting tourist with id: {}", id);
-        return repository.findById(id).orElse(null); //add exception when not found
+        return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Tourist", "id", id));
     }
 
     @Override
@@ -47,7 +48,7 @@ public class TouristServiceImpl implements TouristService {
             log.info("Updating {}", updatedTourist);
             return updatedTourist;
         } else {
-            return null; //add exception when not found
+            throw new ResourceNotFoundException("Tourist", "id", id);
         }
     }
 
@@ -58,7 +59,7 @@ public class TouristServiceImpl implements TouristService {
             log.info("Deleting tourist with id: {}", id);
         } else {
             log.info("Tourist to delete with id {} is not found", id);
-            //add exception when not found
+            throw new ResourceNotFoundException("Tourist", "id", id);
         }
     }
 }
