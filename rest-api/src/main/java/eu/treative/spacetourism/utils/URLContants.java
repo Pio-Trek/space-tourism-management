@@ -1,9 +1,10 @@
-package com.eversis.datahub.utils;
+package eu.treative.spacetourism.utils;
+
 
 public class URLContants {
 
     public static final String PATH = "http://localhost:";
-    public static final String API_MISSION = "/api/mission";
-    public static final String API_PRODUCT = "/api/product";
+    public static final String API_FLIGHT = "/api/flight";
+    public static final String API_TOURIST = "/api/tourist";
 
 }
