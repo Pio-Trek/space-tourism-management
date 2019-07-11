@@ -9,7 +9,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -37,7 +37,7 @@ public class Tourist {
     @Lob
     private String remarks;
 
-    private Date dob;
+    private LocalDate dob;
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY,
@@ -47,7 +47,7 @@ public class Tourist {
             inverseJoinColumns = @JoinColumn(name = "flight_id"))
     private Set<Flight> flights = new HashSet<>();
 
-    public Tourist(@NotBlank String firstName, @NotBlank String lastName, Gender gender, String country, String remarks, Date dob) {
+    public Tourist(@NotBlank String firstName, @NotBlank String lastName, Gender gender, String country, String remarks, LocalDate dob) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;

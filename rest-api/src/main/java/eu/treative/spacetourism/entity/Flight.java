@@ -5,8 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,13 +19,13 @@ public class Flight {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Date departure;
+    private LocalDateTime departure;
 
-    private Date arrival;
+    private LocalDateTime arrival;
 
     private Integer numberOfSeats;
 
-    private BigDecimal ticketPrice;
+    private Double ticketPrice;
 
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {CascadeType.MERGE})
@@ -35,7 +34,7 @@ public class Flight {
             inverseJoinColumns = @JoinColumn(name = "tourist_id"))
     private Set<Tourist> tourists = new HashSet<>();
 
-    public Flight(Date departure, Date arrival, int numberOfSeats, BigDecimal ticketPrice) {
+    public Flight(LocalDateTime departure, LocalDateTime arrival, int numberOfSeats, Double ticketPrice) {
         this.departure = departure;
         this.arrival = arrival;
         this.numberOfSeats = numberOfSeats;
