@@ -3,8 +3,7 @@ package eu.treative.spacetourism.dto;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,13 +13,13 @@ public class FlightDTO {
 
     private Long id;
 
-    private Date departure;
+    private LocalDateTime departure;
 
-    private Date arrival;
+    private LocalDateTime arrival;
 
     private Integer numberOfSeats;
 
-    private BigDecimal ticketPrice;
+    private Double ticketPrice;
 
     private Set<TouristDTO> tourists = new HashSet<>();
 }

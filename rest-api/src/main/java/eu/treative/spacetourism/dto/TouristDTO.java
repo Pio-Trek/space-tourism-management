@@ -3,7 +3,7 @@ package eu.treative.spacetourism.dto;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,7 +23,7 @@ public class TouristDTO {
 
     private String remarks;
 
-    private Date dob;
+    private LocalDate dob;
 
     private Set<FlightDTO> flights = new HashSet<>();
 }
