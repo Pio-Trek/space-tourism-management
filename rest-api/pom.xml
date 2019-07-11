@@ -19,6 +19,8 @@
 		<lombok.version>1.18.8</lombok.version>
 		<logback.version>1.2.3</logback.version>
 		<modelmapper.version>2.3.5</modelmapper.version>
+		<junit.version>5.4.1</junit.version>
+		<junit.jupiter.version>5.3.1</junit.jupiter.version>
 	</properties>
 
 	<dependencies>
@@ -64,6 +66,20 @@
 			<groupId>org.modelmapper</groupId>
 			<artifactId>modelmapper</artifactId>
 			<version>${modelmapper.version}</version>
+		</dependency>
+
+		<!-- Junit 5 -->
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>${junit.jupiter.version}</version>
+			<scope>test</scope>
 		</dependency>
 
 	</dependencies>
