@@ -1,7 +1,8 @@
 package eu.treative.spacetourism.service.impl;
 
-import eu.treative.spacetourism.exception.ResourceNotFoundException;
+import eu.treative.spacetourism.entity.Flight;
 import eu.treative.spacetourism.entity.Tourist;
+import eu.treative.spacetourism.exception.ResourceNotFoundException;
 import eu.treative.spacetourism.repository.TouristRepository;
 import eu.treative.spacetourism.service.TouristService;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @Service
@@ -43,7 +45,9 @@ public class TouristServiceImpl implements TouristService {
     @Override
     public Tourist updateTourist(Tourist newTourist, Long id) {
         if (repository.existsById(id)) {
+            Set<Flight> flights = repository.findById(id).get().getFlights();
             newTourist.setId(id);
+            newTourist.setFlights(flights);
             Tourist updatedTourist = repository.save(newTourist);
             log.info("Updating {}", updatedTourist);
             return updatedTourist;
