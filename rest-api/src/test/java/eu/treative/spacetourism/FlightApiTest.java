@@ -61,8 +61,6 @@ class FlightApiTest {
 
             Flight flight = mapper.readValue(response.getBody(), Flight.class);
 
-            System.out.println(flight.toString());
-
             assertAll(
                     () -> assertEquals(flightId, flight.getId().toString()),
                     () -> assertEquals(MediaType.APPLICATION_JSON_UTF8, response.getHeaders().getContentType()),
@@ -184,7 +182,7 @@ class FlightApiTest {
 
         @Test
         @DisplayName("Validate remove non-existing flight")
-        void shouldValidateRemoveNonExistingMission() {
+        void shouldValidateRemoveNonExistingFlight() {
             ResponseEntity<String> response = restTemplate.exchange(URLContants.PATH + port + URLContants.API_FLIGHT + "/999999", HttpMethod.DELETE, null, String.class);
 
             assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());

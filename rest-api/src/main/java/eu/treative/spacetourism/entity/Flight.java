@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -22,9 +23,11 @@ public class Flight {
     private Long id;
 
     @NotNull
+    @FutureOrPresent
     private LocalDateTime departure;
 
     @NotNull
+    @FutureOrPresent
     private LocalDateTime arrival;
 
     @NotNull

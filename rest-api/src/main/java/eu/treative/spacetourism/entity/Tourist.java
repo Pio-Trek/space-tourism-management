@@ -10,6 +10,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PastOrPresent;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -40,6 +41,7 @@ public class Tourist {
     private String remarks;
 
     @NotNull
+    @PastOrPresent
     private LocalDate dob;
 
     @JsonIgnore
