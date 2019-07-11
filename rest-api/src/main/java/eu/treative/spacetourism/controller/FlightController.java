@@ -8,7 +8,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -33,16 +32,16 @@ public class FlightController {
     }
 
     @PostMapping
-    public Flight createFlight(@RequestBody @Valid FlightDTO flightDTO) {
-        ModelMapper modelMapper = new ModelMapper();
-        Flight flight = modelMapper.map(flightDTO, Flight.class);
+    public Flight createFlight(@RequestBody FlightDTO flightDTO) {
+        ModelMapper mapper = new ModelMapper();
+        Flight flight = mapper.map(flightDTO, Flight.class);
         return service.addFlight(flight);
     }
 
     @PutMapping("/{id}")
-    public Flight updateFlight(@RequestBody @Valid FlightDTO flightDTO, @PathVariable Long id) {
-        ModelMapper modelMapper = new ModelMapper();
-        Flight flight = modelMapper.map(flightDTO, Flight.class);
+    public Flight updateFlight(@RequestBody FlightDTO flightDTO, @PathVariable Long id) {
+        ModelMapper mapper = new ModelMapper();
+        Flight flight = mapper.map(flightDTO, Flight.class);
         return service.updateFlight(flight, id);
     }
 
