@@ -1,8 +1,10 @@
 package eu.treative.spacetourism.controller;
 
-import eu.treative.spacetourism.model.Flight;
+import eu.treative.spacetourism.dto.FlightDTO;
+import eu.treative.spacetourism.entity.Flight;
 import eu.treative.spacetourism.service.FlightService;
 import eu.treative.spacetourism.utils.URLContants;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,12 +33,16 @@ public class FlightController {
     }
 
     @PostMapping
-    public Flight createFlight(@RequestBody @Valid Flight flight) {
+    public Flight createFlight(@RequestBody @Valid FlightDTO flightDTO) {
+        ModelMapper modelMapper = new ModelMapper();
+        Flight flight = modelMapper.map(flightDTO, Flight.class);
         return service.addFlight(flight);
     }
 
     @PutMapping("/{id}")
-    public Flight updateFlight(@RequestBody @Valid Flight flight, @PathVariable Long id) {
+    public Flight updateFlight(@RequestBody @Valid FlightDTO flightDTO, @PathVariable Long id) {
+        ModelMapper modelMapper = new ModelMapper();
+        Flight flight = modelMapper.map(flightDTO, Flight.class);
         return service.updateFlight(flight, id);
     }
 

@@ -1,7 +1,7 @@
 package eu.treative.spacetourism.service.impl;
 
 import eu.treative.spacetourism.exception.ResourceNotFoundException;
-import eu.treative.spacetourism.model.Tourist;
+import eu.treative.spacetourism.entity.Tourist;
 import eu.treative.spacetourism.repository.TouristRepository;
 import eu.treative.spacetourism.service.TouristService;
 import lombok.extern.slf4j.Slf4j;

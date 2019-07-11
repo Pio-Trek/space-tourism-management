@@ -1,4 +1,4 @@
-package eu.treative.spacetourism.model;
+package eu.treative.spacetourism.utils;
 
 public enum Gender {
     Male, Female

@@ -1,6 +1,8 @@
-package eu.treative.spacetourism.model;
+package eu.treative.spacetourism.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import eu.treative.spacetourism.utils.Gender;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -37,6 +39,7 @@ public class Tourist {
 
     private Date dob;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {CascadeType.MERGE})
     @JoinTable(name = "tourist_flights",

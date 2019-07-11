@@ -1,6 +1,6 @@
 package eu.treative.spacetourism.service;
 
-import eu.treative.spacetourism.model.Tourist;
+import eu.treative.spacetourism.entity.Tourist;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package eu.treative.spacetourism.model;
+package eu.treative.spacetourism.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
