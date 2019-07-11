@@ -1,9 +1,14 @@
 package eu.treative.spacetourism.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+@Getter
+@Setter
 public class TouristDTO {
 
     private Long id;
