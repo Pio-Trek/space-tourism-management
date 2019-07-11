@@ -2,7 +2,7 @@ package eu.treative.spacetourism.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import eu.treative.spacetourism.utils.Gender;
+import eu.treative.spacetourism.dto.Gender;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

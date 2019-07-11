@@ -1,7 +1,5 @@
 package eu.treative.spacetourism.dto;
 
-import eu.treative.spacetourism.utils.Gender;
-
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
