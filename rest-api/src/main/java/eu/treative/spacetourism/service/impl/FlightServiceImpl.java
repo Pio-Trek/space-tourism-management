@@ -67,11 +67,28 @@ public class FlightServiceImpl implements FlightService {
             Set<Tourist> tourists = flight.getTourists();
             tourists.add(tourist);
             flight.setTourists(tourists);
+            log.info("Adding Tourist with ID {} to the Flight with ID {}", tourist.getId(), flightId);
             return repository.save(flight);
         } else {
             throw new OutOfSeatsException(flightId);
         }
 
+    }
+
+    @Override
+    public Flight removeTouristFromFlight(Long touristId, Long flightId) {
+        Flight flight = repository.findById(flightId).orElseThrow(() -> new ResourceNotFoundException("Flight", "id", flightId));
+
+        Set<Tourist> tourists = flight.getTourists();
+        boolean isRemoved = tourists.removeIf(t -> t.getId().equals(touristId));
+
+        if (isRemoved) {
+            flight.setTourists(tourists);
+            log.info("Removing Tourist with ID {} from the Flight with ID {}", touristId, flightId);
+            return repository.save(flight);
+        } else {
+            throw new ResourceNotFoundException("Tourist : ID " + touristId, "Flight", flightId);
+        }
     }
 
     @Override

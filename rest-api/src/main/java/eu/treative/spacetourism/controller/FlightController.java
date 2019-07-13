@@ -54,6 +54,11 @@ public class FlightController {
         return service.addTouristToFlight(tourist, flightId);
     }
 
+    @DeleteMapping("/{flightId}/tourist/{touristId}")
+    public Flight removeTouristFromFlight(@PathVariable Long flightId, @PathVariable Long touristId) {
+        return service.removeTouristFromFlight(touristId, flightId);
+    }
+
     @DeleteMapping("/{id}")
     public void deleteFlight(@PathVariable Long id) {
         service.removeFlight(id);
