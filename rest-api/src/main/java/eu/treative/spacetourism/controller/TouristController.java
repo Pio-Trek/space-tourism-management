@@ -39,10 +39,10 @@ public class TouristController {
     }
 
     @PutMapping("/{id}")
-    public Tourist updateTourist(@RequestBody TouristDTO touristDTO, @PathVariable Long id) {
+    public Tourist updateTouristDetails(@RequestBody TouristDTO touristDTO, @PathVariable Long id) {
         ModelMapper mapper = new ModelMapper();
         Tourist tourist = mapper.map(touristDTO, Tourist.class);
-        return service.updateTourist(tourist, id);
+        return service.updateTouristDetails(tourist, id);
     }
 
     @DeleteMapping("/{id}")

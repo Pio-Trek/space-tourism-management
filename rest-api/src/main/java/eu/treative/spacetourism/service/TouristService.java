@@ -12,7 +12,7 @@ public interface TouristService {
 
     Tourist addTourist(Tourist tourist);
 
-    Tourist updateTourist(Tourist tourist, Long id);
+    Tourist updateTouristDetails(Tourist tourist, Long id);
 
     void removeTourist(Long id);
 

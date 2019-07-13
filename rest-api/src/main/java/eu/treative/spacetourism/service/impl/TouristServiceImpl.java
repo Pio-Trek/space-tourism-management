@@ -43,7 +43,7 @@ public class TouristServiceImpl implements TouristService {
     }
 
     @Override
-    public Tourist updateTourist(Tourist newTourist, Long id) {
+    public Tourist updateTouristDetails(Tourist newTourist, Long id) {
         if (repository.existsById(id)) {
             Set<Flight> flights = repository.findById(id).get().getFlights();
             newTourist.setId(id);

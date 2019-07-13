@@ -2,6 +2,7 @@ package eu.treative.spacetourism.service.impl;
 
 import eu.treative.spacetourism.entity.Flight;
 import eu.treative.spacetourism.entity.Tourist;
+import eu.treative.spacetourism.exception.OutOfSeatsException;
 import eu.treative.spacetourism.exception.ResourceNotFoundException;
 import eu.treative.spacetourism.repository.FlightRepository;
 import eu.treative.spacetourism.service.FlightService;
@@ -43,7 +44,7 @@ public class FlightServiceImpl implements FlightService {
     }
 
     @Override
-    public Flight updateFlight(Flight newFlight, Long id) {
+    public Flight updateFlightDetails(Flight newFlight, Long id) {
         if (repository.existsById(id)) {
             Set<Tourist> tourists = repository.findById(id).get().getTourists();
             newFlight.setId(id);
@@ -54,6 +55,23 @@ public class FlightServiceImpl implements FlightService {
         } else {
             throw new ResourceNotFoundException("Flight", "id", id);
         }
+    }
+
+    @Override
+    public Flight addTouristToFlight(Tourist tourist, Long flightId) {
+        Flight flight = repository.findById(flightId).orElseThrow(() -> new ResourceNotFoundException("Flight", "id", flightId));
+
+        int numberOfSeats = flight.getNumberOfSeats();
+        int numberOfReservations = flight.getTourists().size();
+        if (numberOfSeats > numberOfReservations) {
+            Set<Tourist> tourists = flight.getTourists();
+            tourists.add(tourist);
+            flight.setTourists(tourists);
+            return repository.save(flight);
+        } else {
+            throw new OutOfSeatsException(flightId);
+        }
+
     }
 
     @Override
