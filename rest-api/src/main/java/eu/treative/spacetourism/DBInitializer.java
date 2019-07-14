@@ -16,6 +16,12 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.HashSet;
 
+/**
+ * Database Initializer class for test purpose.
+ * Make sure that property 'db.initialize.enabled' is set to true
+ * if tou want to run unit tests.
+ */
+
 @Slf4j
 @Component
 public class DBInitializer implements CommandLineRunner {
@@ -33,7 +39,7 @@ public class DBInitializer implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
 
         if (dbInit) {
             log.info("=== Initializing Database with sample data ===");
@@ -63,8 +69,12 @@ public class DBInitializer implements CommandLineRunner {
                 add(tourist3);
             }});
 
+            // Create empty flight
+            Flight flight3 = new Flight(LocalDateTime.of(2019, Month.DECEMBER, 18, 11, 30), LocalDateTime.of(2019, Month.DECEMBER, 18, 15, 00), 30, 145.80);
+
             flightService.addFlight(flight1);
             flightService.addFlight(flight2);
+            flightService.addFlight(flight3);
 
             log.info("=== Database has been initialized ===");
 

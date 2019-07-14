@@ -1,9 +1,7 @@
 package eu.treative.spacetourism.controller;
 
 import eu.treative.spacetourism.dto.FlightDTO;
-import eu.treative.spacetourism.dto.TouristDTO;
 import eu.treative.spacetourism.entity.Flight;
-import eu.treative.spacetourism.entity.Tourist;
 import eu.treative.spacetourism.service.FlightService;
 import eu.treative.spacetourism.utils.URLContants;
 import org.modelmapper.ModelMapper;
@@ -47,11 +45,9 @@ public class FlightController {
         return service.updateFlightDetails(flight, id);
     }
 
-    @PutMapping("/{flightId}/tourist")
-    public Flight addTouristToFlight(@RequestBody TouristDTO touristDTO, @PathVariable Long flightId) {
-        ModelMapper mapper = new ModelMapper();
-        Tourist tourist = mapper.map(touristDTO, Tourist.class);
-        return service.addTouristToFlight(tourist, flightId);
+    @PutMapping("/{flightId}/tourist/{touristId}")
+    public Flight addTouristToFlight(@PathVariable Long flightId, @PathVariable Long touristId) {
+        return service.addTouristToFlight(flightId, touristId);
     }
 
     @DeleteMapping("/{flightId}/tourist/{touristId}")

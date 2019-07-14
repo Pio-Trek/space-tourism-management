@@ -17,8 +17,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.Month;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -163,8 +162,40 @@ class FlightApiTest {
             ResponseEntity<String> updatedResponse = restTemplate.exchange(URLContants.PATH + port + URLContants.API_FLIGHT + "/" + flightId, HttpMethod.PUT, new HttpEntity<>(flightToUpdate), String.class);
 
             assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, updatedResponse.getStatusCode());
-
         }
+
+        @Test
+        @DisplayName("Add tourist to existing flight")
+        void shouldAddTouristToFlight() throws IOException {
+            String touristId = "1";
+            String flightId = "3";
+
+            // Get flight before and after adding tourist to compare the number of seats
+            ResponseEntity<String> responseBefore = restTemplate.getForEntity(URLContants.PATH + port + URLContants.API_FLIGHT + "/" + flightId, String.class);
+            Flight flightBeforeAddingTourist = mapper.readValue(responseBefore.getBody(), Flight.class);
+
+            ResponseEntity<String> responseAfter = restTemplate.exchange(URLContants.PATH + port + URLContants.API_FLIGHT + "/" + flightId + "/tourist/" + touristId, HttpMethod.PUT, null, String.class);
+            Flight flightAfterAddingTourist = mapper.readValue(responseAfter.getBody(), Flight.class);
+
+            assertAll(
+                    () -> assertTrue(flightBeforeAddingTourist.getTourists().size() < flightAfterAddingTourist.getTourists().size()),
+                    () -> assertEquals(HttpStatus.OK, responseAfter.getStatusCode())
+            );
+        }
+
+        @Test
+        @DisplayName("Validate add tourist to the full flight")
+        void shouldValidateOutOfSeatsFlightWhenAddingTourist() {
+            String touristId = "2";
+            String flightId = "1";
+            ResponseEntity<String> responseAfter = restTemplate.exchange(URLContants.PATH + port + URLContants.API_FLIGHT + "/" + flightId + "/tourist/" + touristId, HttpMethod.PUT, null, String.class);
+
+            assertAll(
+                    () -> assertEquals(HttpStatus.NOT_ACCEPTABLE, responseAfter.getStatusCode())
+            );
+        }
+
+
     }
 
     @Nested
@@ -186,6 +217,33 @@ class FlightApiTest {
             ResponseEntity<String> response = restTemplate.exchange(URLContants.PATH + port + URLContants.API_FLIGHT + "/999999", HttpMethod.DELETE, null, String.class);
 
             assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        }
+
+        @Test
+        @DisplayName("Remove tourist from the flight")
+        void shouldRemoveTouristFromFlight() throws IOException {
+            String touristId = "3";
+            String flightId = "2";
+
+            ResponseEntity<String> responseBefore = restTemplate.getForEntity(URLContants.PATH + port + URLContants.API_FLIGHT + "/" + flightId, String.class);
+            Flight flightBeforeRemovingTourist = mapper.readValue(responseBefore.getBody(), Flight.class);
+
+            ResponseEntity<String> responseRemoveTourist = restTemplate.exchange(URLContants.PATH + port + URLContants.API_FLIGHT + "/" + flightId + "/tourist/" + touristId, HttpMethod.DELETE, null, String.class);
+            Flight flightAfterRemovingTourist = mapper.readValue(responseRemoveTourist.getBody(), Flight.class);
+
+            assertAll(
+                    () -> assertTrue(flightBeforeRemovingTourist.getTourists().size() > flightAfterRemovingTourist.getTourists().size()),
+                    () -> assertEquals(HttpStatus.OK, responseRemoveTourist.getStatusCode())
+            );
+        }
+
+        @Test
+        @DisplayName("Validate remove non-existing tourist from the flight")
+        void shouldValidateRemoveNonExistingTouristFromFlight() {
+            String flightId = "1";
+            ResponseEntity<String> responseRemoveTourist = restTemplate.exchange(URLContants.PATH + port + URLContants.API_FLIGHT + "/" + flightId + "/tourist/999999", HttpMethod.DELETE, null, String.class);
+
+            assertEquals(HttpStatus.NOT_FOUND, responseRemoveTourist.getStatusCode());
         }
 
     }

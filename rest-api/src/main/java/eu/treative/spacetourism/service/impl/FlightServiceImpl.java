@@ -5,6 +5,7 @@ import eu.treative.spacetourism.entity.Tourist;
 import eu.treative.spacetourism.exception.OutOfSeatsException;
 import eu.treative.spacetourism.exception.ResourceNotFoundException;
 import eu.treative.spacetourism.repository.FlightRepository;
+import eu.treative.spacetourism.repository.TouristRepository;
 import eu.treative.spacetourism.service.FlightService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,39 +18,41 @@ import java.util.Set;
 @Service
 public class FlightServiceImpl implements FlightService {
 
-    private final FlightRepository repository;
+    private final FlightRepository flightRepository;
+    private final TouristRepository touristRepository;
 
     @Autowired
-    public FlightServiceImpl(FlightRepository repository) {
-        this.repository = repository;
+    public FlightServiceImpl(FlightRepository repository, TouristRepository touristRepository) {
+        this.flightRepository = repository;
+        this.touristRepository = touristRepository;
     }
 
     @Override
     public List<Flight> getAllFlights() {
         log.info("Getting all flights");
-        return repository.findAll();
+        return flightRepository.findAll();
     }
 
     @Override
     public Flight getFlight(Long id) {
         log.info("Getting flight with id: {}", id);
-        return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Flight", "id", id));
+        return flightRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Flight", "id", id));
     }
 
     @Override
     public Flight addFlight(Flight flight) {
-        Flight savedFlight = repository.save(flight);
+        Flight savedFlight = flightRepository.save(flight);
         log.info("Saving {}", savedFlight);
         return savedFlight;
     }
 
     @Override
     public Flight updateFlightDetails(Flight newFlight, Long id) {
-        if (repository.existsById(id)) {
-            Set<Tourist> tourists = repository.findById(id).get().getTourists();
+        if (flightRepository.existsById(id)) {
+            Set<Tourist> tourists = flightRepository.findById(id).get().getTourists();
             newFlight.setId(id);
             newFlight.setTourists(tourists);
-            Flight updatedFlight = repository.save(newFlight);
+            Flight updatedFlight = flightRepository.save(newFlight);
             log.info("Updating {}", updatedFlight);
             return updatedFlight;
         } else {
@@ -58,8 +61,9 @@ public class FlightServiceImpl implements FlightService {
     }
 
     @Override
-    public Flight addTouristToFlight(Tourist tourist, Long flightId) {
-        Flight flight = repository.findById(flightId).orElseThrow(() -> new ResourceNotFoundException("Flight", "id", flightId));
+    public Flight addTouristToFlight(Long flightId, Long touristId) {
+        Flight flight = flightRepository.findById(flightId).orElseThrow(() -> new ResourceNotFoundException("Flight", "id", flightId));
+        Tourist tourist = touristRepository.findById(touristId).orElseThrow(() -> new ResourceNotFoundException("Tourist", "id", flightId));
 
         int numberOfSeats = flight.getNumberOfSeats();
         int numberOfReservations = flight.getTourists().size();
@@ -68,7 +72,7 @@ public class FlightServiceImpl implements FlightService {
             tourists.add(tourist);
             flight.setTourists(tourists);
             log.info("Adding Tourist with ID {} to the Flight with ID {}", tourist.getId(), flightId);
-            return repository.save(flight);
+            return flightRepository.save(flight);
         } else {
             throw new OutOfSeatsException(flightId);
         }
@@ -77,7 +81,7 @@ public class FlightServiceImpl implements FlightService {
 
     @Override
     public Flight removeTouristFromFlight(Long touristId, Long flightId) {
-        Flight flight = repository.findById(flightId).orElseThrow(() -> new ResourceNotFoundException("Flight", "id", flightId));
+        Flight flight = flightRepository.findById(flightId).orElseThrow(() -> new ResourceNotFoundException("Flight", "id", flightId));
 
         Set<Tourist> tourists = flight.getTourists();
         boolean isRemoved = tourists.removeIf(t -> t.getId().equals(touristId));
@@ -85,7 +89,7 @@ public class FlightServiceImpl implements FlightService {
         if (isRemoved) {
             flight.setTourists(tourists);
             log.info("Removing Tourist with ID {} from the Flight with ID {}", touristId, flightId);
-            return repository.save(flight);
+            return flightRepository.save(flight);
         } else {
             throw new ResourceNotFoundException("Tourist : ID " + touristId, "Flight", flightId);
         }
@@ -93,8 +97,8 @@ public class FlightServiceImpl implements FlightService {
 
     @Override
     public void removeFlight(Long id) {
-        if (repository.existsById(id)) {
-            repository.deleteById(id);
+        if (flightRepository.existsById(id)) {
+            flightRepository.deleteById(id);
             log.info("Deleting flight with id: {}", id);
         } else {
             log.info("Flight to delete with id {} is not found", id);
