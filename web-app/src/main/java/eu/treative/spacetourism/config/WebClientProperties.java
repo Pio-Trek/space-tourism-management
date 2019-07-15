@@ -1,5 +1,7 @@
 package eu.treative.spacetourism.config;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -7,6 +9,9 @@ import org.springframework.stereotype.Component;
  * POJO class of the custom configuration properties to automatically inject
  * properties into the class used to access to the external REST Service.
  */
+
+@Getter
+@Setter
 @Component
 @ConfigurationProperties("rest") // configuration prefix
 public class WebClientProperties {
@@ -21,22 +26,4 @@ public class WebClientProperties {
      */
     private String serviceUrl;
 
-
-    // Getters and setters
-
-    public int getConnectTimeout() {
-        return connectTimeout;
-    }
-
-    public void setConnectTimeout(int connectTimeout) {
-        this.connectTimeout = connectTimeout;
-    }
-
-    public String getServiceUrl() {
-        return serviceUrl;
-    }
-
-    public void setServiceUrl(String serviceUrl) {
-        this.serviceUrl = serviceUrl;
-    }
 }
