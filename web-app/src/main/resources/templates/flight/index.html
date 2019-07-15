@@ -12,49 +12,59 @@
 <div class="container">
   <div class="row">
     <div class="col-lg-12 text-center">
-      <h1 class="mt-5">List of Flights</h1>
+
+      <!-- If flight list is empty -->
+      <h1 class="mt-5" th:if="${flightList.empty}">Sorry. Couldn't find any flight.
+        <br>Please add a new one or contact with Administrator.</h1>
       <br>
     </div>
 
-    <table class="table table-hover">
-      <thead>
-      <tr>
-        <th scope="col">ID</th>
-        <th scope="col">Departure</th>
-        <th scope="col">Arrival</th>
-        <th scope="col">Number of seats</th>
-        <th scope="col">Number of tourists</th>
-        <th scope="col">Ticket price</th>
-        <th scope="col" style="width: 180px">Action</th>
-      </tr>
-      </thead>
-      <tbody>
-
-      <th:block th:each="flight : ${flightList}">
-
-        <tr>
-          <th scope="row" th:text="${flight.id}">Flight ID</th>
-          <td th:text="${#temporals.format(flight.departure, 'yyyy-MM-dd HH:mm')}">Departure</td>
-          <td th:text="${#temporals.format(flight.arrival, 'yyyy-MM-dd HH:mm')}">Arrival</td>
-          <td th:text="${flight.numberOfSeats}">Number of seats</td>
-          <td th:text="${flight.tourists.size()}">Number of tourists</td>
-          <td th:text="${flight.ticketPrice}">Ticket price</td>
-          <td>
-            <a th:href="@{'/flight/update'(id=${flight.id})}"
-               class="btn btn-success btn-sm"> Amend </a>
-            |
-            <a th:href="@{'/flight/delete'(id=${flight.id})}"
-               th:onclick="'return confirm(\'Are you sure you want to delete this flight?\');'"
-               class="btn btn-danger btn-sm"> Delete </a>
-          </td>
-        </tr>
-
-      </th:block>
-
-      </tbody>
-    </table>
-
+    <!-- Else -->
+    <h1 class="mt-5" th:unless="${flightList.empty}">List of flights</h1>
+    <br>
   </div>
+  <table class="table table-hover" th:unless="${flightList.empty}">
+    <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Departure</th>
+      <th scope="col">Arrival</th>
+      <th scope="col">Ticket price</th>
+      <th scope="col">Number of seats</th>
+      <th scope="col">Tourists</th>
+      <th scope="col" style="width: 180px">Action</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    <th:block th:each="flight : ${flightList}">
+
+      <tr>
+        <th scope="row" th:text="${flight.id}">Flight ID</th>
+        <td th:text="${#temporals.format(flight.departure, 'yyyy-MM-dd HH:mm')}">Departure</td>
+        <td th:text="${#temporals.format(flight.arrival, 'yyyy-MM-dd HH:mm')}">Arrival</td>
+        <td th:text="${flight.ticketPrice}">Ticket price</td>
+        <td th:text="${flight.numberOfSeats}">Number of seats</td>
+        <td><span th:text="'Number: ' + ${flight.tourists.size()}"></span>&nbsp;
+          <a th:href="@{'/flight/'+ ${flight.id}}+'/tourist'"
+             class="btn btn-secondary btn-sm"> Edit List </a>
+        </td>
+        <td>
+          <a th:href="@{'/flight/update'(id=${flight.id})}"
+             class="btn btn-success btn-sm"> Amend </a>
+          |
+          <a th:href="@{'/flight/'+${flight.id}+'/delete'}"
+             th:onclick="'return confirm(\'Are you sure you want to delete this flight?\');'"
+             class="btn btn-danger btn-sm"> Delete </a>
+        </td>
+      </tr>
+
+    </th:block>
+
+    </tbody>
+  </table>
+
+</div>
 </div>
 
 <div class="row">

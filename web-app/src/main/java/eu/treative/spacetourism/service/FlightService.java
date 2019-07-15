@@ -6,5 +6,7 @@ import java.util.List;
 
 public interface FlightService {
 
-    public List<Flight> getAllFlights();
+    List<Flight> getAllFlights();
+
+    void removeFlight(Long id);
 }

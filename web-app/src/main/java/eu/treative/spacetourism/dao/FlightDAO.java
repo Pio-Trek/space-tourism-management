@@ -8,4 +8,6 @@ public interface FlightDAO {
 
     List<Flight> getAllFlights();
 
+    void removeFight(Long id);
+
 }

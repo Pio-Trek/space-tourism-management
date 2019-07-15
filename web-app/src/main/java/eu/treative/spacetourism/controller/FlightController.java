@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Date;
@@ -30,5 +31,11 @@ public class FlightController {
         model.addAttribute("dateN", new Date());
         model.addAttribute("sampleText", "aaa bbb cc");
         return "/flight/index";
+    }
+
+    @GetMapping("/{id}/delete")
+    public String removeFlight(@PathVariable Long id) {
+        flightService.removeFlight(id);
+        return "redirect:/flight";
     }
 }
