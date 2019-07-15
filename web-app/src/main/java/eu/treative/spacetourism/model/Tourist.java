@@ -39,4 +39,16 @@ public class Tourist {
 
     private Set<Flight> flights = new HashSet<>();
 
+    @Override
+    public String toString() {
+        return "Tourist{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", gender=" + gender +
+                ", country='" + country + '\'' +
+                ", remarks='" + remarks + '\'' +
+                ", dob=" + dob +
+                '}';
+    }
 }
