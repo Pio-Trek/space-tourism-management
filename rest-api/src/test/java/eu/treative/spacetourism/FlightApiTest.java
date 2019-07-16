@@ -53,6 +53,18 @@ class FlightApiTest {
         }
 
         @Test
+        @DisplayName("Get all flights by tourist id")
+        void shouldGetAllFlightsByTouristId() {
+            String touristId = "2";
+            ResponseEntity<String> response = restTemplate.getForEntity(URLContants.PATH + port + URLContants.API_FLIGHT + "/tourist/" + touristId, String.class);
+
+            assertAll(
+                    () -> assertEquals(MediaType.APPLICATION_JSON_UTF8, response.getHeaders().getContentType()),
+                    () -> assertEquals(HttpStatus.OK, response.getStatusCode())
+            );
+        }
+
+        @Test
         @DisplayName("Get single flight")
         void shouldGetSingleFlight() throws IOException {
             String flightId = "1";

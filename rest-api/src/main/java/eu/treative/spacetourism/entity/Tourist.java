@@ -1,7 +1,7 @@
 package eu.treative.spacetourism.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import eu.treative.spacetourism.dto.Gender;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -44,12 +44,12 @@ public class Tourist {
     @PastOrPresent
     private LocalDate dob;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {CascadeType.MERGE})
     @JoinTable(name = "tourist_flights",
             joinColumns = @JoinColumn(name = "tourist_id"),
             inverseJoinColumns = @JoinColumn(name = "flight_id"))
-    @JsonBackReference
     private Set<Flight> flights = new HashSet<>();
 
     public Tourist(@NotBlank String firstName, @NotBlank String lastName, Gender gender, String country, String remarks, LocalDate dob) {
