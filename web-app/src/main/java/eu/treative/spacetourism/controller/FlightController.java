@@ -136,13 +136,17 @@ public class FlightController {
 
     @GetMapping("/{id}/tourist")
     public String flightTouristList(@PathVariable Long id, @ModelAttribute("message") String message, Model model) {
-        Set<Tourist> currentFlightTourists = flightService.getFlight(id).getTourists();
+        Flight flight = flightService.getFlight(id);
+        Set<Tourist> currentFlightTourists = flight.getTourists();
         Set<Tourist> allOtherTourists = new HashSet<>(touristService.getAllTourists());
         allOtherTourists.removeAll(currentFlightTourists);
+
+        boolean isFlightFull = flight.getNumberOfSeats() <= currentFlightTourists.size();
 
         model.addAttribute("currentFlightTourists", currentFlightTourists);
         model.addAttribute("allOtherTourists", allOtherTourists);
         model.addAttribute("flightId", id);
+        model.addAttribute("isFlightFull", isFlightFull);
         model.addAttribute("message", message);
         return "/flight/tourist-list";
     }
