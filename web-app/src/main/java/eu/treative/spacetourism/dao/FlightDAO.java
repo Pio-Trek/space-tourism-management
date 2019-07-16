@@ -8,7 +8,11 @@ public interface FlightDAO {
 
     List<Flight> getAllFlights();
 
-    Flight addOrUpdateFlight(Flight flight);
+    Flight getFlight(Long id);
+
+    Flight addFlight(Flight flight);
+
+    Flight updateFlight(Flight flight, Long id);
 
     void removeFight(Long id);
 

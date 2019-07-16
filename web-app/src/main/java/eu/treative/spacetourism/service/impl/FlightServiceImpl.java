@@ -27,10 +27,24 @@ public class FlightServiceImpl implements FlightService {
     }
 
     @Override
-    public Flight addOrUpdateFlight(Flight flight) {
-        Flight savedFlight = flightDAO.addOrUpdateFlight(flight);
+    public Flight getFlight(Long id) {
+        Flight flight = flightDAO.getFlight(id);
+        log.info("Getting flight with id: {}", id);
+        return flight;
+    }
+
+    @Override
+    public Flight addFlight(Flight flight) {
+        Flight savedFlight = flightDAO.addFlight(flight);
         log.info("Saving {}", savedFlight);
         return savedFlight;
+    }
+
+    @Override
+    public Flight updateFlight(Flight flight, Long id) {
+        Flight updatedFlight = flightDAO.updateFlight(flight, id);
+        log.info("Updating {}", updatedFlight);
+        return updatedFlight;
     }
 
 

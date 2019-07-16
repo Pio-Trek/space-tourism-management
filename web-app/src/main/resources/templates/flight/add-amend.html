@@ -12,7 +12,8 @@
 <div class="container">
   <div class="row">
     <div class="col-lg-12 text-center">
-      <h1 class="mt-5 mb-5">New flight details</h1>
+      <h1 th:if="${action == 'add'}" class="mt-5 mb-5">New flight details</h1>
+      <h1 th:if="${action == 'amend'}" class="mt-5 mb-5">Amend flight details</h1>
     </div>
   </div>
 
@@ -20,17 +21,19 @@
   <th:block th:unless="${errors.empty}">
     <div class="col-md-5 ml-auto mr-auto alert alert-dismissible alert-danger mb-5">
       <button type="button" class="close" data-dismiss="alert">&times;</button>
-      <strong>An error occured in field(s): </strong>
+      <strong>An error occurred in field(s): </strong>
       <p th:utext="${errors}"></p>
     </div>
   </th:block>
 
   <form autocomplete="off" action="#"
-        th:action="@{/flight/add}"
+        th:action="@{/flight/add-amend}"
         th:object="${flight}"
         method="post" class="m-t" role="form"
         data-toggle="validator"
         enctype="multipart/form-data">
+
+    <input type="hidden" th:value="*{id}" name="id"/>
 
     <!--Departure date input-->
     <div class="col-md-4 text-center ml-auto mr-auto">

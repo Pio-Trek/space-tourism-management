@@ -22,6 +22,9 @@ import java.util.List;
 @RequestMapping(URLContants.URL_FLIGHT)
 public class FlightController {
 
+    private static final String ACTION_ADD = "add";
+    private static final String ACTION_AMEND = "amend";
+
     private final FlightService flightService;
 
     @Autowired
@@ -40,12 +43,31 @@ public class FlightController {
     @GetMapping("/add")
     public String addFlight(@ModelAttribute("errorMessage") String errors, Model model) {
         model.addAttribute("flight", new FlightFormModel());
+        model.addAttribute("action", ACTION_ADD);
         model.addAttribute("errors", errors);
-        return "flight/add";
+        return "flight/add-amend";
     }
 
-    @PostMapping("/add")
-    public String addFlight(@Valid @ModelAttribute("flight") FlightFormModel flightFormModel, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
+    @GetMapping("/{id}/amend")
+    public String addFlight(@PathVariable Long id, RedirectAttributes redirectAttributes, @ModelAttribute("errorMessage") String errors, Model model) {
+
+        Flight flight = flightService.getFlight(id);
+
+        if (flight != null) {
+            model.addAttribute("flight", flight);
+            model.addAttribute("action", ACTION_AMEND);
+            model.addAttribute("errors", errors);
+            return "flight/add-amend";
+        } else {
+            redirectAttributes.addFlashAttribute("message", "An error occurred when trying to amend a flight.");
+            return "redirect:/flight";
+        }
+    }
+
+    @PostMapping("/add-amend")
+    public String amendFlight(@Valid @ModelAttribute("flight") FlightFormModel flightFormModel, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
+
+        String action = ((flightFormModel.getId() == null) ? ACTION_ADD : ACTION_AMEND);
 
         boolean formIsNotValid = false;
         StringBuilder errors = new StringBuilder();
@@ -88,22 +110,25 @@ public class FlightController {
             }
 
             if (formIsNotValid) {
+                model.addAttribute("action", action);
                 model.addAttribute("errors", errors.toString());
-                return "flight/add";
+                return "flight/add-amend";
             }
-
 
             flight.setNumberOfSeats(flightFormModel.getNumberOfSeats());
             flight.setTicketPrice(flightFormModel.getTicketPrice());
-            flightService.addOrUpdateFlight(flight);
-            redirectAttributes.addFlashAttribute("message", "You successfully added a new flight.");
+            if (action.equals(ACTION_AMEND)) {
+                flightService.updateFlight(flight, flightFormModel.getId());
+            } else {
+                flightService.addFlight(flight);
+            }
+            redirectAttributes.addFlashAttribute("message", "You successfully " + action + "ed a flight.");
         } catch (Exception e) {
             log.error("Error message: {}", e.getMessage());
         }
 
         return "redirect:/flight";
     }
-
 
     @GetMapping("/{id}/delete")
     public String removeFlight(@PathVariable Long id, RedirectAttributes redirectAttributes) {

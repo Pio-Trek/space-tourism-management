@@ -42,16 +42,42 @@ public class FlightDAOImpl implements FlightDAO {
     }
 
     @Override
-    public Flight addOrUpdateFlight(Flight flight) {
+    public Flight getFlight(Long id) {
+        Flight responseFlight = null;
+        try {
+            responseFlight = client.getRestTemplate()
+                    .getForEntity(URLContants.URL_FLIGHT + "/" + id, Flight.class).getBody();
+        } catch (final HttpClientErrorException e) {
+            log.error("Couldn't get flight with id: {}. Error message: {}", id, e.getResponseBodyAsString());
+        }
+
+        return responseFlight;
+    }
+
+    @Override
+    public Flight addFlight(Flight flight) {
         Flight responseFlight = new Flight();
         try {
-            HttpMethod httpMethod = flight.getId() == null ? HttpMethod.POST : HttpMethod.PUT;
             HttpEntity<Flight> request = new HttpEntity<>(flight);
             responseFlight = client.getRestTemplate()
-                    .exchange(URLContants.URL_FLIGHT, httpMethod, request, Flight.class)
+                    .exchange(URLContants.URL_FLIGHT, HttpMethod.POST, request, Flight.class)
                     .getBody();
         } catch (final HttpClientErrorException e) {
-            log.error("Couldn't add or update flight. Error message: {}", e.getResponseBodyAsString());
+            log.error("Couldn't add a new flight. Error message: {}", e.getResponseBodyAsString());
+        }
+        return responseFlight;
+    }
+
+    @Override
+    public Flight updateFlight(Flight flight, Long id) {
+        Flight responseFlight = new Flight();
+        try {
+            HttpEntity<Flight> request = new HttpEntity<>(flight);
+            responseFlight = client.getRestTemplate()
+                    .exchange(URLContants.URL_FLIGHT + "/" + id, HttpMethod.PUT, request, Flight.class)
+                    .getBody();
+        } catch (final HttpClientErrorException e) {
+            log.error("Couldn't update a flight. Error message: {}", e.getResponseBodyAsString());
         }
         return responseFlight;
     }
