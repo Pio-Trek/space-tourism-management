@@ -3,7 +3,7 @@ package eu.treative.spacetourism.dao.impl;
 import eu.treative.spacetourism.client.WebClient;
 import eu.treative.spacetourism.dao.FlightDAO;
 import eu.treative.spacetourism.model.Flight;
-import eu.treative.spacetourism.utils.URLContants;
+import eu.treative.spacetourism.utils.Constant;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
@@ -30,7 +30,7 @@ public class FlightDAOImpl implements FlightDAO {
     public List<Flight> getAllFlights() {
         try {
             return client.getRestTemplate().exchange(
-                    URLContants.URL_FLIGHT,
+                    Constant.URL_FLIGHT,
                     HttpMethod.GET, null,
                     new ParameterizedTypeReference<List<Flight>>() {
                     }).getBody();
@@ -45,7 +45,7 @@ public class FlightDAOImpl implements FlightDAO {
         Flight responseFlight = null;
         try {
             responseFlight = client.getRestTemplate()
-                    .getForEntity(URLContants.URL_FLIGHT + "/" + id, Flight.class).getBody();
+                    .getForEntity(Constant.URL_FLIGHT + "/" + id, Flight.class).getBody();
         } catch (final HttpClientErrorException e) {
             log.error("Couldn't get flight with id: {}. Error message: {}", id, e.getResponseBodyAsString());
         }
@@ -59,7 +59,7 @@ public class FlightDAOImpl implements FlightDAO {
         try {
             HttpEntity<Flight> request = new HttpEntity<>(flight);
             responseFlight = client.getRestTemplate()
-                    .exchange(URLContants.URL_FLIGHT, HttpMethod.POST, request, Flight.class)
+                    .exchange(Constant.URL_FLIGHT, HttpMethod.POST, request, Flight.class)
                     .getBody();
         } catch (final HttpClientErrorException e) {
             log.error("Couldn't add a new flight. Error message: {}", e.getResponseBodyAsString());
@@ -73,7 +73,7 @@ public class FlightDAOImpl implements FlightDAO {
         try {
             HttpEntity<Flight> request = new HttpEntity<>(flight);
             responseFlight = client.getRestTemplate()
-                    .exchange(URLContants.URL_FLIGHT + "/" + id, HttpMethod.PUT, request, Flight.class)
+                    .exchange(Constant.URL_FLIGHT + "/" + id, HttpMethod.PUT, request, Flight.class)
                     .getBody();
         } catch (final HttpClientErrorException e) {
             log.error("Couldn't update a flight. Error message: {}", e.getResponseBodyAsString());
@@ -85,7 +85,7 @@ public class FlightDAOImpl implements FlightDAO {
     public boolean removeFight(Long id) {
         try {
             return client.getRestTemplate().exchange
-                    (URLContants.URL_FLIGHT + "/" + id, HttpMethod.DELETE, null, String.class).getStatusCode().is2xxSuccessful();
+                    (Constant.URL_FLIGHT + "/" + id, HttpMethod.DELETE, null, String.class).getStatusCode().is2xxSuccessful();
         } catch (final HttpClientErrorException e) {
             log.error("Couldn't delete flight with id: {}. Error message: {}", id, e.getResponseBodyAsString());
         }

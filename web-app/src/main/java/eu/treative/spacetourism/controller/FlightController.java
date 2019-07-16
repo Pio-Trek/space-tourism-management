@@ -3,7 +3,7 @@ package eu.treative.spacetourism.controller;
 import eu.treative.spacetourism.model.Flight;
 import eu.treative.spacetourism.model.FlightFormModel;
 import eu.treative.spacetourism.service.FlightService;
-import eu.treative.spacetourism.utils.URLContants;
+import eu.treative.spacetourism.utils.Constant;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,11 +19,8 @@ import java.util.List;
 
 @Slf4j
 @Controller
-@RequestMapping(URLContants.URL_FLIGHT)
+@RequestMapping(Constant.URL_FLIGHT)
 public class FlightController {
-
-    private static final String ACTION_ADD = "add";
-    private static final String ACTION_AMEND = "amend";
 
     private final FlightService flightService;
 
@@ -43,7 +40,7 @@ public class FlightController {
     @GetMapping("/add")
     public String addFlight(@ModelAttribute("errorMessage") String errors, Model model) {
         model.addAttribute("flight", new FlightFormModel());
-        model.addAttribute("action", ACTION_ADD);
+        model.addAttribute("action", Constant.ACTION_ADD);
         model.addAttribute("errors", errors);
         return "flight/add-amend";
     }
@@ -55,7 +52,7 @@ public class FlightController {
 
         if (flight != null) {
             model.addAttribute("flight", flight);
-            model.addAttribute("action", ACTION_AMEND);
+            model.addAttribute("action", Constant.ACTION_AMEND);
             model.addAttribute("errors", errors);
             return "flight/add-amend";
         } else {
@@ -67,7 +64,7 @@ public class FlightController {
     @PostMapping("/add-amend")
     public String amendFlight(@Valid @ModelAttribute("flight") FlightFormModel flightFormModel, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
 
-        String action = ((flightFormModel.getId() == null) ? ACTION_ADD : ACTION_AMEND);
+        String action = ((flightFormModel.getId() == null) ? Constant.ACTION_ADD : Constant.ACTION_AMEND);
 
         boolean formIsNotValid = false;
         StringBuilder errors = new StringBuilder();
@@ -117,7 +114,7 @@ public class FlightController {
 
             flight.setNumberOfSeats(flightFormModel.getNumberOfSeats());
             flight.setTicketPrice(flightFormModel.getTicketPrice());
-            if (action.equals(ACTION_AMEND)) {
+            if (action.equals(Constant.ACTION_AMEND)) {
                 flightService.updateFlight(flight, flightFormModel.getId());
             } else {
                 flightService.addFlight(flight);

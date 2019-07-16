@@ -2,7 +2,7 @@ package eu.treative.spacetourism.controller;
 
 import eu.treative.spacetourism.model.Tourist;
 import eu.treative.spacetourism.service.TouristService;
-import eu.treative.spacetourism.utils.URLContants;
+import eu.treative.spacetourism.utils.Constant;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,7 +17,7 @@ import java.util.List;
 
 @Slf4j
 @Controller
-@RequestMapping(URLContants.URL_TOURIST)
+@RequestMapping(Constant.URL_TOURIST)
 public class TouristController {
 
     private final TouristService touristService;
