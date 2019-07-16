@@ -120,7 +120,7 @@ public class FlightController {
             } else {
                 flightService.addFlight(flight);
             }
-            redirectAttributes.addFlashAttribute("message", "You successfully " + action + "ed a flight.");
+            redirectAttributes.addFlashAttribute("message", "You have successfully " + action + "ed a flight.");
         } catch (Exception e) {
             log.error("Error message: {}", e.getMessage());
         }
@@ -133,7 +133,7 @@ public class FlightController {
         boolean isFlightRemoved = flightService.removeFlight(id);
 
         if (isFlightRemoved) {
-            redirectAttributes.addFlashAttribute("message", "You successfully removed the flight with ID: " + id);
+            redirectAttributes.addFlashAttribute("message", "You have successfully removed the flight with ID: " + id);
             return "redirect:/flight";
         } else {
             redirectAttributes.addFlashAttribute("message", "An error occurred when trying to delete a flight with ID: " + id);

@@ -41,7 +41,7 @@
       <div class="form-group">
         <div class="input-group">
           <input type="datetime-local" data-date="" th:field="*{departure}"
-                 data-date-format="yyyy-MM-dd'T'hh:mm:ss"
+                 data-date-format="yyyy-MM-dd'T'hh:mm:ss" placeholder="dd/mm/yyyy, hh:mm"
                  class="form-control date-picker input-lg" required>
         </div>
       </div>
@@ -54,7 +54,7 @@
       <div class="form-group">
         <div class="input-group">
           <input type="datetime-local" data-date="" th:field="*{arrival}"
-                 class="form-control date-picker input-lg"
+                 class="form-control date-picker input-lg" placeholder="dd/mm/yyyy, hh:mm"
                  data-date-format="yyyy-MM-dd'T'hh:mm:ss" required>
         </div>
       </div>
@@ -67,7 +67,7 @@
       <div class="form-group">
         <div class="input-group">
           <input type="number" th:field="*{numberOfSeats}"
-                 class="form-control date-picker input-lg"
+                 class="form-control date-picker input-lg" placeholder="Seats number"
                  min="1" step="1" required>
         </div>
       </div>
@@ -80,7 +80,7 @@
       <div class="form-group">
         <div class="input-group">
           <input type="number" th:field="*{ticketPrice}"
-                 class="form-control date-picker input-lg"
+                 class="form-control date-picker input-lg" placeholder="Price"
                  min="1" step="0.01" required>
         </div>
       </div>
