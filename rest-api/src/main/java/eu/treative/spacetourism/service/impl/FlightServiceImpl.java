@@ -34,6 +34,12 @@ public class FlightServiceImpl implements FlightService {
     }
 
     @Override
+    public List<Flight> getFlightsByTouristsId(Long id) {
+        log.info("Getting all flights by tourist id: {}", id);
+        return flightRepository.findFlightsByTouristsId(id);
+    }
+
+    @Override
     public Flight getFlight(Long id) {
         log.info("Getting flight with id: {}", id);
         return flightRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Flight", "id", id));
@@ -105,4 +111,5 @@ public class FlightServiceImpl implements FlightService {
             throw new ResourceNotFoundException("Flight", "id", id);
         }
     }
+
 }

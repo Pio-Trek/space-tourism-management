@@ -1,6 +1,6 @@
 package eu.treative.spacetourism.service;
 
-import eu.treative.spacetourism.entity.Flight;
+import eu.treative.spacetourism.model.Flight;
 
 import java.util.List;
 
@@ -12,14 +12,14 @@ public interface FlightService {
 
     List<Flight> getFlightsByTouristsId(Long id);
 
-    Flight addFlight(Flight tourist);
+    Flight addFlight(Flight flight);
 
-    Flight updateFlightDetails(Flight tourist, Long id);
+    Flight updateFlight(Flight flight, Long id);
 
-    Flight addTouristToFlight(Long flightId, Long touristId);
+    Flight addTouristToFlight(Long touristId, Long flightId);
 
     Flight removeTouristFromFlight(Long touristId, Long flightId);
 
-    void removeFlight(Long id);
+    boolean removeFlight(Long id);
 
 }

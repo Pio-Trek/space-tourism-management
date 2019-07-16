@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="fragments/header :: header"/>
+
+<body>
+
+<div th:replace="fragments/header :: navigation"/>
+
+<!-- Page Content -->
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12 text-center">
+      <h1 th:if="${action == 'add'}" class="mt-5 mb-5">New flight details</h1>
+      <h1 th:if="${action == 'amend'}" class="mt-5 mb-5">Amend flight details</h1>
+    </div>
+  </div>
+
+  <!-- Field error message -->
+  <th:block th:unless="${errors.empty}">
+    <div class="col-md-5 ml-auto mr-auto alert alert-dismissible alert-danger mb-5">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <strong>An error occurred in field(s): </strong>
+      <p th:utext="${errors}"></p>
+    </div>
+  </th:block>
+
+  <form autocomplete="off" action="#"
+        th:action="@{/flight/add-amend}"
+        th:object="${flight}"
+        method="post" class="m-t" role="form"
+        data-toggle="validator"
+        enctype="multipart/form-data">
+
+    <input type="hidden" th:value="*{id}" name="id"/>
+
+    <!--Departure date input-->
+    <div class="col-md-4 text-center ml-auto mr-auto">
+      <label><i class="fas fa-plane-departure mr-1"></i>&nbsp;Departure:</label>
+      <div class="form-group">
+        <div class="input-group">
+          <input type="datetime-local" data-date="" th:field="*{departure}"
+                 data-date-format="yyyy-MM-dd'T'hh:mm:ss" placeholder="dd/mm/yyyy, hh:mm"
+                 class="form-control date-picker input-lg" required>
+        </div>
+      </div>
+    </div>
+    <!--Departure date input END-->
+
+    <!--Arrival date input-->
+    <div class="col-md-4 text-center ml-auto mr-auto">
+      <label><i class="fas fa-plane-arrival mr-1"></i>&nbsp;Arrival:</label>
+      <div class="form-group">
+        <div class="input-group">
+          <input type="datetime-local" data-date="" th:field="*{arrival}"
+                 class="form-control date-picker input-lg" placeholder="dd/mm/yyyy, hh:mm"
+                 data-date-format="yyyy-MM-dd'T'hh:mm:ss" required>
+        </div>
+      </div>
+    </div>
+    <!--Arrival date input END-->
+
+    <!--Number of available seats input-->
+    <div class="col-md-3 text-center ml-auto mr-auto">
+      <label><i class="fas fa-couch mr-1"></i>&nbsp;Number of available seats:</label>
+      <div class="form-group">
+        <div class="input-group">
+          <input type="number" th:field="*{numberOfSeats}"
+                 class="form-control date-picker input-lg" placeholder="Seats number"
+                 min="1" step="1" required>
+        </div>
+      </div>
+    </div>
+    <!--Number of available seats input END-->
+
+    <!--Ticket price input-->
+    <div class="col-md-3 text-center ml-auto mr-auto">
+      <label><i class="fas fa-ticket-alt mr-1"></i>&nbsp;Ticket price:</label>
+      <div class="form-group">
+        <div class="input-group">
+          <input type="number" th:field="*{ticketPrice}"
+                 class="form-control date-picker input-lg" placeholder="Price"
+                 min="1" step="0.01" required>
+        </div>
+      </div>
+    </div>
+    <!--Ticket price input END-->
+
+    <!--SUBMIT button-->
+    <div class="col-lg-3 text-center col-md-3 ml-auto mr-auto mt-5">
+      <input type="submit"
+             value="Submit"
+             class="btn btn-primary btn-round btn-lg btn-block"/>
+    </div>
+  </form>
+
+  <a th:href="@{/flight}" class="btn btn-success"> <i class="fas fa-arrow-circle-left mr-1"></i> Back to List</a>
+
+</div>
+
+<div th:replace="fragments/footer :: scripts"/>
+
+</body>
+</html>

@@ -31,6 +31,11 @@ public class FlightController {
         return service.getFlight(id);
     }
 
+    @GetMapping("/tourist/{id}")
+    public List<Flight> getFlightsByTouristsId(@PathVariable Long id) {
+        return service.getFlightsByTouristsId(id);
+    }
+
     @PostMapping
     public Flight createFlight(@RequestBody FlightDTO flightDTO) {
         ModelMapper mapper = new ModelMapper();
