@@ -55,7 +55,7 @@
                class="btn btn-secondary btn-sm"> Edit List </a>
           </td>
           <td>
-            <a th:href="@{'/flight/update'(id=${flight.id})}"
+            <a th:href="@{'/flight/'+${flight.id}+'/update'}"
                class="btn btn-success btn-sm"> Amend </a>
             |
             <a th:href="@{'/flight/'+${flight.id}+'/delete'}"

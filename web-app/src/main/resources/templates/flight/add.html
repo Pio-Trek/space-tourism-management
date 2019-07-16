@@ -32,9 +32,9 @@
         data-toggle="validator"
         enctype="multipart/form-data">
 
-    <!--Pet lost date input-->
+    <!--Departure date input-->
     <div class="col-md-4 text-center ml-auto mr-auto">
-      <label><i class="fas fa-plane-departure"></i>&nbsp;Departure:</label>
+      <label><i class="fas fa-plane-departure mr-1"></i>&nbsp;Departure:</label>
       <div class="form-group">
         <div class="input-group">
           <input type="datetime-local" data-date="" th:field="*{departure}"
@@ -43,11 +43,11 @@
         </div>
       </div>
     </div>
-    <!--Pet lost date input END-->
+    <!--Departure date input END-->
 
-    <!--Pet lost date input-->
+    <!--Arrival date input-->
     <div class="col-md-4 text-center ml-auto mr-auto">
-      <label><i class="fas fa-plane-arrival"></i>&nbsp;Arrival:</label>
+      <label><i class="fas fa-plane-arrival mr-1"></i>&nbsp;Arrival:</label>
       <div class="form-group">
         <div class="input-group">
           <input type="datetime-local" data-date="" th:field="*{arrival}"
@@ -56,11 +56,11 @@
         </div>
       </div>
     </div>
-    <!--Pet lost date input END-->
+    <!--Arrival date input END-->
 
-    <!--Pet lost date input-->
+    <!--Number of available seats input-->
     <div class="col-md-3 text-center ml-auto mr-auto">
-      <label><i class="fas fa-couch"></i>&nbsp;Number of available seats:</label>
+      <label><i class="fas fa-couch mr-1"></i>&nbsp;Number of available seats:</label>
       <div class="form-group">
         <div class="input-group">
           <input type="number" th:field="*{numberOfSeats}"
@@ -69,11 +69,11 @@
         </div>
       </div>
     </div>
-    <!--Pet lost date input END-->
+    <!--Number of available seats input END-->
 
-    <!--Pet lost date input-->
+    <!--Ticket price input-->
     <div class="col-md-3 text-center ml-auto mr-auto">
-      <label><i class="fas fa-ticket-alt"></i>&nbsp;Ticket price:</label>
+      <label><i class="fas fa-ticket-alt mr-1"></i>&nbsp;Ticket price:</label>
       <div class="form-group">
         <div class="input-group">
           <input type="number" th:field="*{ticketPrice}"
@@ -82,7 +82,9 @@
         </div>
       </div>
     </div>
+    <!--Ticket price input END-->
 
+    <!--SUBMIT button-->
     <div class="col-lg-3 text-center col-md-3 ml-auto mr-auto mt-5">
       <input type="submit"
              value="Submit"
