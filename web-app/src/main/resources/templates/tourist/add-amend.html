@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="fragments/header :: header"/>
+
+<body>
+
+<div th:replace="fragments/header :: navigation"/>
+
+<!-- Page Content -->
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12 text-center">
+      <h1 th:if="${action == 'add'}" class="mt-5 mb-5">New tourist details</h1>
+      <h1 th:if="${action == 'amend'}" class="mt-5 mb-5">Amend tourist details</h1>
+    </div>
+  </div>
+
+  <!-- Field error message -->
+  <th:block th:unless="${errors.empty}">
+    <div class="col-md-5 ml-auto mr-auto alert alert-dismissible alert-danger mb-5">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <strong>An error occurred in field(s): </strong>
+      <p th:utext="${errors}"></p>
+    </div>
+  </th:block>
+
+  <form autocomplete="off" action="#"
+        th:action="@{/tourist/add-amend}"
+        th:object="${tourist}"
+        method="post" class="m-t" role="form"
+        data-toggle="validator"
+        enctype="multipart/form-data">
+
+    <input type="hidden" th:value="*{id}" name="id"/>
+
+    <!--First and last name input-->
+    <div class="col-md-5 text-center ml-auto mr-auto">
+      <label><i class="fas fa-user mr-1"></i> First and last name:</label>
+      <div class="form-group">
+        <div class="input-group">
+          <input type="text" th:field="*{firstName}" placeholder="First name"
+                 class="form-control date-picker input-lg mr-1" required>
+          <input type="text" th:field="*{lastName}" placeholder="Last name"
+                 class="form-control date-picker input-lg ml-1" required>
+        </div>
+      </div>
+    </div>
+    <!--First and last name END-->
+
+    <!--Pet gender input-->
+    <div class="col-lg-5 text-center col-md-5 ml-auto mr-auto">
+      <label><i class="fas fa-venus-mars"></i> Gender</label>
+      <div class="form-group">
+        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+          <label class="button-gender btn btn-outline-info btn-lg"
+                 id="male-gender">
+            <input type="radio"
+                   th:field="*{gender}"
+                   class="form-check-input" required
+                   th:value="${T(eu.treative.spacetourism.model.Gender).Male}"
+                   th:text="${T(eu.treative.spacetourism.model.Gender).Male}"/>
+          </label>
+          <label class="button-gender btn btn-outline-info btn-lg"
+                 id="female-gender">
+            <input type="radio"
+                   th:field="*{gender}"
+                   class="form-check-input" required
+                   th:value="${T(eu.treative.spacetourism.model.Gender).Female}"
+                   th:text="${T(eu.treative.spacetourism.model.Gender).Female}"/>
+          </label>
+        </div>
+      </div>
+    </div>
+    <!--Pet gender input END-->
+
+    <!--First and last name input-->
+    <div class="col-md-4 text-center ml-auto mr-auto">
+      <label><i class="fas fa-globe mr-1"></i>&nbsp;Country:</label>
+      <div class="form-group">
+        <div class="input-group">
+          <input type="text" th:field="*{country}" placeholder="Country"
+                 class="form-control date-picker input-lg" required>
+        </div>
+      </div>
+    </div>
+    <!--First and last name END-->
+
+    <!--Departure date input-->
+    <div class="col-md-4 text-center ml-auto mr-auto">
+      <label><i class="fas fa-birthday-cake mr-1"></i>&nbsp;Date of birth:</label>
+      <div class="form-group">
+        <div class="input-group">
+          <input type="date" data-date="" th:field="*{dob}"
+                 data-date-format="yyyy-MM-dd" placeholder="dd/mm/yyyy"
+                 class="form-control date-picker input-lg" required>
+        </div>
+      </div>
+    </div>
+    <!--Departure date input END-->
+
+    <!--Pet description input-->
+    <div class="col-lg-6 text-center col-md-6 ml-auto mr-auto">
+      <label for="textarea"><i class="fas fa-comment-alt mr-1"></i>&nbsp;Remarks</label>
+      <div class="form-group">
+                        <textarea class="form-control" th:field="*{remarks}"
+                                  placeholder="Remarks - please give us much detail as possible."
+                                  rows="5" maxlength="255" id="textarea"></textarea>
+        <div id="textarea_remarks" class="small"></div>
+      </div>
+    </div>
+    <!--Pet description input END-->
+
+    <!--SUBMIT button-->
+    <div class="col-lg-3 text-center col-md-3 ml-auto mr-auto mt-5">
+      <input type="submit"
+             value="Submit"
+             class="btn btn-primary btn-round btn-lg btn-block"/>
+    </div>
+  </form>
+
+</div>
+
+<div th:replace="fragments/footer :: scripts"/>
+
+<script src="../../js/gender-selector.js" th:src="@{/js/gender-selector.js}"
+        type="text/javascript"></script>
+
+</body>
+</html>

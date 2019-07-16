@@ -62,7 +62,7 @@ public class FlightController {
     }
 
     @PostMapping("/add-amend")
-    public String amendFlight(@Valid @ModelAttribute("flight") FlightFormModel flightFormModel, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
+    public String addOrAmendFlight(@Valid @ModelAttribute("flight") FlightFormModel flightFormModel, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
 
         String action = ((flightFormModel.getId() == null) ? Constant.ACTION_ADD : Constant.ACTION_AMEND);
 
@@ -114,6 +114,7 @@ public class FlightController {
 
             flight.setNumberOfSeats(flightFormModel.getNumberOfSeats());
             flight.setTicketPrice(flightFormModel.getTicketPrice());
+
             if (action.equals(Constant.ACTION_AMEND)) {
                 flightService.updateFlight(flight, flightFormModel.getId());
             } else {

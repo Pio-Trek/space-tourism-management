@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Getter
@@ -16,10 +17,10 @@ public class FlightFormModel {
 
     private Long id;
 
-    @NotNull
+    @NotBlank
     private String departure;
 
-    @NotNull
+    @NotBlank
     private String arrival;
 
     @NotNull
