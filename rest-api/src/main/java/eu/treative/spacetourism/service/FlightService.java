@@ -19,4 +19,7 @@ public interface FlightService {
     Flight removeTouristFromFlight(Long touristId, Long flightId);
 
     void removeFlight(Long id);
+
+    List<Flight> getFlightsByTouristsId(Long id);
+
 }

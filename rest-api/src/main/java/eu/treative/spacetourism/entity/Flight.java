@@ -1,5 +1,6 @@
 package eu.treative.spacetourism.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -43,6 +44,7 @@ public class Flight {
     @JoinTable(name = "tourist_flights",
             joinColumns = @JoinColumn(name = "flight_id"),
             inverseJoinColumns = @JoinColumn(name = "tourist_id"))
+    @JsonManagedReference
     private Set<Tourist> tourists = new HashSet<>();
 
     public Flight(LocalDateTime departure, LocalDateTime arrival, Integer numberOfSeats, Double ticketPrice) {
