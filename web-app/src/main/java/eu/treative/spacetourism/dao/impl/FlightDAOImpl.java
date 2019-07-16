@@ -38,7 +38,6 @@ public class FlightDAOImpl implements FlightDAO {
             log.error("Couldn't get list of flights. Error message: {}", e.getResponseBodyAsString());
             return new ArrayList<>();
         }
-
     }
 
     @Override

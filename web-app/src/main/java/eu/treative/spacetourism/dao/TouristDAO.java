@@ -1,19 +1,18 @@
-package eu.treative.spacetourism.service;
+package eu.treative.spacetourism.dao;
 
 import eu.treative.spacetourism.model.Tourist;
 
 import java.util.List;
 
-public interface TouristService {
+public interface TouristDAO {
 
     List<Tourist> getAllTourists();
 
     Tourist getTourist(Long id);
 
-    Tourist addTourist(Tourist flight);
+    Tourist addTourist(Tourist tourist);
 
-    Tourist updateTourist(Tourist flight, Long id);
+    Tourist updateTourist(Tourist tourist, Long id);
 
     void removeTourist(Long id);
-
 }
