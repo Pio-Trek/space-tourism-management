@@ -7,6 +7,7 @@ import eu.treative.spacetourism.utils.URLContants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.HttpClientErrorException;
@@ -38,6 +39,21 @@ public class FlightDAOImpl implements FlightDAO {
             return new ArrayList<>();
         }
 
+    }
+
+    @Override
+    public Flight addOrUpdateFlight(Flight flight) {
+        Flight responseFlight = new Flight();
+        try {
+            HttpMethod httpMethod = flight.getId() == null ? HttpMethod.POST : HttpMethod.PUT;
+            HttpEntity<Flight> request = new HttpEntity<>(flight);
+            responseFlight = client.getRestTemplate()
+                    .exchange(URLContants.URL_FLIGHT, httpMethod, request, Flight.class)
+                    .getBody();
+        } catch (final HttpClientErrorException e) {
+            log.error("Couldn't add or update flight. Error message: {}", e.getResponseBodyAsString());
+        }
+        return responseFlight;
     }
 
     @Override

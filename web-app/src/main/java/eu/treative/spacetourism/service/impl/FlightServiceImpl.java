@@ -27,6 +27,14 @@ public class FlightServiceImpl implements FlightService {
     }
 
     @Override
+    public Flight addOrUpdateFlight(Flight flight) {
+        Flight savedFlight = flightDAO.addOrUpdateFlight(flight);
+        log.info("Saving {}", savedFlight);
+        return savedFlight;
+    }
+
+
+    @Override
     public void removeFlight(Long id) {
         log.info("Deleting flight with id: {}", id);
         flightDAO.removeFight(id);

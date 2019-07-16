@@ -8,6 +8,8 @@ public interface FlightDAO {
 
     List<Flight> getAllFlights();
 
+    Flight addOrUpdateFlight(Flight flight);
+
     void removeFight(Long id);
 
 }

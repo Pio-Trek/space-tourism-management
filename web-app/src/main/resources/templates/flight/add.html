@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="fragments/header :: header"/>
+
+<body>
+
+<div th:replace="fragments/header :: navigation"/>
+
+<!-- Page Content -->
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12 text-center">
+      <h1 class="mt-5 mb-5">New flight details</h1>
+    </div>
+  </div>
+
+  <!-- Field error message -->
+  <th:block th:unless="${errors.empty}">
+    <div class="col-md-5 ml-auto mr-auto alert alert-dismissible alert-danger mb-5">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <strong>An error occured in field(s): </strong>
+      <p th:utext="${errors}"></p>
+    </div>
+  </th:block>
+
+  <form autocomplete="off" action="#"
+        th:action="@{/flight/add}"
+        th:object="${flight}"
+        method="post" class="m-t" role="form"
+        data-toggle="validator"
+        enctype="multipart/form-data">
+
+    <!--Pet lost date input-->
+    <div class="col-md-4 text-center ml-auto mr-auto">
+      <label><i class="fas fa-plane-departure"></i>&nbsp;Departure:</label>
+      <div class="form-group">
+        <div class="input-group">
+          <input type="datetime-local" data-date="" th:field="*{departure}"
+                 data-date-format="yyyy-MM-dd'T'hh:mm:ss"
+                 class="form-control date-picker input-lg" required>
+        </div>
+      </div>
+    </div>
+    <!--Pet lost date input END-->
+
+    <!--Pet lost date input-->
+    <div class="col-md-4 text-center ml-auto mr-auto">
+      <label><i class="fas fa-plane-arrival"></i>&nbsp;Arrival:</label>
+      <div class="form-group">
+        <div class="input-group">
+          <input type="datetime-local" data-date="" th:field="*{arrival}"
+                 class="form-control date-picker input-lg"
+                 data-date-format="yyyy-MM-dd'T'hh:mm:ss" required>
+        </div>
+      </div>
+    </div>
+    <!--Pet lost date input END-->
+
+    <!--Pet lost date input-->
+    <div class="col-md-3 text-center ml-auto mr-auto">
+      <label><i class="fas fa-couch"></i>&nbsp;Number of available seats:</label>
+      <div class="form-group">
+        <div class="input-group">
+          <input type="number" th:field="*{numberOfSeats}"
+                 class="form-control date-picker input-lg"
+                 min="1" step="1" required>
+        </div>
+      </div>
+    </div>
+    <!--Pet lost date input END-->
+
+    <!--Pet lost date input-->
+    <div class="col-md-3 text-center ml-auto mr-auto">
+      <label><i class="fas fa-ticket-alt"></i>&nbsp;Ticket price:</label>
+      <div class="form-group">
+        <div class="input-group">
+          <input type="number" th:field="*{ticketPrice}"
+                 class="form-control date-picker input-lg"
+                 min="1" step="0.01" required>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-3 text-center col-md-3 ml-auto mr-auto mt-5">
+      <input type="submit"
+             value="Submit"
+             class="btn btn-primary btn-round btn-lg btn-block"/>
+    </div>
+  </form>
+
+</div>
+
+<div th:replace="fragments/footer :: scripts"/>
+
+</body>
+</html>

@@ -8,5 +8,8 @@ public interface FlightService {
 
     List<Flight> getAllFlights();
 
+    Flight addOrUpdateFlight(Flight flight);
+
     void removeFlight(Long id);
+
 }
