@@ -4,6 +4,7 @@ import eu.treative.spacetourism.model.Flight;
 import eu.treative.spacetourism.model.FlightFormModel;
 import eu.treative.spacetourism.model.Tourist;
 import eu.treative.spacetourism.service.FlightService;
+import eu.treative.spacetourism.service.TouristService;
 import eu.treative.spacetourism.utils.Constant;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -25,10 +27,12 @@ import java.util.Set;
 public class FlightController {
 
     private final FlightService flightService;
+    private final TouristService touristService;
 
     @Autowired
-    public FlightController(FlightService flightService) {
+    public FlightController(FlightService flightService, TouristService touristService) {
         this.flightService = flightService;
+        this.touristService = touristService;
     }
 
     @GetMapping
@@ -132,23 +136,38 @@ public class FlightController {
 
     @GetMapping("/{id}/tourist")
     public String flightTouristList(@PathVariable Long id, @ModelAttribute("message") String message, Model model) {
-        Set<Tourist> tourists = flightService.getFlight(id).getTourists();
-        model.addAttribute("touristList", tourists);
+        Set<Tourist> currentFlightTourists = flightService.getFlight(id).getTourists();
+        Set<Tourist> allOtherTourists = new HashSet<>(touristService.getAllTourists());
+        allOtherTourists.removeAll(currentFlightTourists);
+
+        model.addAttribute("currentFlightTourists", currentFlightTourists);
+        model.addAttribute("allOtherTourists", allOtherTourists);
         model.addAttribute("flightId", id);
         model.addAttribute("message", message);
         return "/flight/tourist-list";
     }
 
+    @PostMapping("{flightId}/tourist/{touristId}/add")
+    public String addTouristToFlight(@PathVariable Long flightId, @PathVariable Long touristId, RedirectAttributes redirectAttributes) {
+        Flight flight = flightService.addTouristToFlight(touristId, flightId);
+
+        if (flight != null) {
+            redirectAttributes.addFlashAttribute("message", "You have successfully added tourist with ID " + touristId);
+            return "redirect:/flight/" + flightId + "/tourist";
+        } else {
+            redirectAttributes.addFlashAttribute("message", "An error occurred when trying to add tourist with ID " + touristId + " to the flight.");
+            return "redirect:/flight";
+        }
+
+    }
+
     @PostMapping("{flightId}/tourist/{touristId}/delete")
-    public String removeTouristFromFlight(@PathVariable Long flightId, @PathVariable Long touristId, Model model, RedirectAttributes redirectAttributes) {
+    public String removeTouristFromFlight(@PathVariable Long flightId, @PathVariable Long touristId, RedirectAttributes redirectAttributes) {
         Flight flight = flightService.removeTouristFromFlight(touristId, flightId);
 
         if (flight != null) {
-            Set<Tourist> tourists = flight.getTourists();
-            model.addAttribute("touristList", tourists);
-            model.addAttribute("flightId", flight.getId());
-            model.addAttribute("message", "You have successfully removed tourist with ID " + touristId + " from the flight.");
-            return "/flight/tourist-list";
+            redirectAttributes.addFlashAttribute("message", "You have successfully removed tourist with ID " + touristId);
+            return "redirect:/flight/" + flightId + "/tourist";
         } else {
             redirectAttributes.addFlashAttribute("message", "An error occurred when trying to remove a tourist with ID " + touristId + " from the flight.");
             return "redirect:/flight";

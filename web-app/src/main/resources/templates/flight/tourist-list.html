@@ -14,11 +14,12 @@
     <div class="col-lg-12 text-center">
 
       <!-- If tourist list is empty -->
-      <h1 class="mt-5 mb-5" th:if="${touristList.empty}"
-          th:utext="'There is no tourist in the flight ID: ' + ${flightId} + '<br />  Please a first one!'"></h1>
+      <h1 class="mt-5 mb-5" th:if="${currentFlightTourists.empty}"
+          th:utext="'There is no tourist in the flight ID: ' + ${flightId} + '<br />  Please add a first one!'"></h1>
 
       <!-- Else -->
-      <h1 class="mt-5 mb-5" th:unless="${touristList.empty}" th:text="'Tourists of the flight ID: ' + ${flightId}"></h1>
+      <h1 class="mt-5 mb-5" th:unless="${currentFlightTourists.empty}"
+          th:text="'Tourists of the flight ID: ' + ${flightId}"></h1>
     </div>
 
     <th:block th:unless="${message.empty}">
@@ -28,7 +29,7 @@
       </div>
     </th:block>
 
-    <table class="table table-hover" th:unless="${touristList.empty}">
+    <table class="table table-hover" th:unless="${currentFlightTourists.empty}">
       <thead>
       <tr>
         <th scope="col">ID</th>
@@ -43,7 +44,7 @@
       </thead>
       <tbody>
 
-      <th:block th:each="tourist : ${touristList}">
+      <th:block th:each="tourist : ${currentFlightTourists}">
 
         <tr>
           <th scope="row" th:text="${tourist.id}">Tourist ID</th>
@@ -70,8 +71,59 @@
     </table>
 
   </div>
-</div>
 
+  <div class="row">
+
+    <div class="col-lg-12 text-center">
+
+      <h1 class="mt-5 mb-5" th:unless="${allOtherTourists.empty}"
+          th:text="'Tourists not in the current flight'"></h1>
+    </div>
+
+    <table class="table table-hover" th:unless="${allOtherTourists.empty}">
+      <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">First name</th>
+        <th scope="col">Last name</th>
+        <th scope="col">Gender</th>
+        <th scope="col">Country</th>
+        <th scope="col">Remarks</th>
+        <th scope="col" style="width: 100px">DOB</th>
+        <th scope="col" style="width: 180px">Action</th>
+      </tr>
+      </thead>
+      <tbody>
+
+      <th:block th:each="otherTourist : ${allOtherTourists}">
+
+        <tr>
+          <th scope="row" th:text="${otherTourist.id}">Tourist ID</th>
+          <td th:text="${otherTourist.firstName}">First name</td>
+          <td th:text="${otherTourist.lastName}">Last name</td>
+          <td th:text="${otherTourist.gender}">Gender</td>
+          <td th:text="${otherTourist.country}">Country</td>
+          <td th:text="${otherTourist.remarks}">Remarks</td>
+          <td th:text="${#temporals.format(otherTourist.dob, 'yyyy-MM-dd')}">DOB</td>
+          <td>
+
+            <form autocomplete="off" action="#"
+                  th:action="@{'/flight/' +${flightId}+ '/tourist/'+${otherTourist.id}+'/add'}" method="post">
+              <input type="submit" value="Add to the flight" class="btn btn-info btn-sm"/>
+
+            </form>
+
+          </td>
+        </tr>
+
+      </th:block>
+
+      </tbody>
+    </table>
+
+  </div>
+
+</div>
 
 <div th:replace="fragments/footer :: scripts"/>
 

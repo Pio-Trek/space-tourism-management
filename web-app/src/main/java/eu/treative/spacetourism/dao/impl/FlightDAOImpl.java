@@ -76,9 +76,21 @@ public class FlightDAOImpl implements FlightDAO {
                     .exchange(Constant.URL_FLIGHT + "/" + id, HttpMethod.PUT, request, Flight.class)
                     .getBody();
         } catch (final HttpClientErrorException e) {
-            log.error("Couldn't update a flight. Error message: {}", e.getResponseBodyAsString());
+            log.error("Couldn't update the flight. Error message: {}", e.getResponseBodyAsString());
         }
         return responseFlight;
+    }
+
+    @Override
+    public Flight addTouristToFlight(Long touristId, Long flightId) {
+        Flight flight = null;
+        try {
+            flight = client.getRestTemplate()
+                    .exchange(Constant.URL_FLIGHT + "/" + flightId + "/tourist/" + touristId, HttpMethod.PUT, null, Flight.class).getBody();
+        } catch (final HttpClientErrorException e) {
+            log.error("Couldn't add the tourist with id {} to the flight with id: {}. Error message: {}", touristId, flightId, e.getResponseBodyAsString());
+        }
+        return flight;
     }
 
     @Override
@@ -88,7 +100,7 @@ public class FlightDAOImpl implements FlightDAO {
             flight = client.getRestTemplate()
                     .exchange(Constant.URL_FLIGHT + "/" + flightId + "/tourist/" + touristId, HttpMethod.DELETE, null, Flight.class).getBody();
         } catch (final HttpClientErrorException e) {
-            log.error("Couldn't remove tourist with id {} from the flight with id: {}. Error message: {}", touristId, flightId, e.getResponseBodyAsString());
+            log.error("Couldn't remove the tourist with id {} from the flight with id: {}. Error message: {}", touristId, flightId, e.getResponseBodyAsString());
         }
         return flight;
     }
