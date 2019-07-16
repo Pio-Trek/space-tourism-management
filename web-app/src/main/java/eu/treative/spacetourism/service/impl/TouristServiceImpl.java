@@ -43,7 +43,7 @@ public class TouristServiceImpl implements TouristService {
     }
 
     @Override
-    public HttpStatus removeTourist(Long id) {
+    public boolean removeTourist(Long id) {
         log.info("Deleting tourist with id: {}", id);
         return touristDAO.removeTourist(id);
     }

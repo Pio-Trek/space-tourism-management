@@ -132,8 +132,14 @@ public class FlightController {
 
     @GetMapping("/{id}/delete")
     public String removeFlight(@PathVariable Long id, RedirectAttributes redirectAttributes) {
-        flightService.removeFlight(id);
-        redirectAttributes.addFlashAttribute("message", "You successfully removed the flight.");
-        return "redirect:/flight";
+        boolean isFlightRemoved = flightService.removeFlight(id);
+
+        if (isFlightRemoved) {
+            redirectAttributes.addFlashAttribute("message", "You successfully removed the flight with ID: " + id);
+            return "redirect:/flight";
+        } else {
+            redirectAttributes.addFlashAttribute("message", "An error occurred when trying to delete a flight with ID: " + id);
+            return "redirect:/flight";
+        }
     }
 }

@@ -5,7 +5,6 @@ import eu.treative.spacetourism.service.TouristService;
 import eu.treative.spacetourism.utils.URLContants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,9 +37,9 @@ public class TouristController {
 
     @GetMapping("/{id}/delete")
     public String removeTourist(@PathVariable Long id, RedirectAttributes redirectAttributes) {
-        HttpStatus httpStatus = touristService.removeTourist(id);
-        if (httpStatus.is2xxSuccessful()) {
-            redirectAttributes.addFlashAttribute("message", "You successfully removed the tourist.");
+        boolean isTouristRemoved = touristService.removeTourist(id);
+        if (isTouristRemoved) {
+            redirectAttributes.addFlashAttribute("message", "You successfully removed the tourist with ID: " + id);
             return "redirect:/tourist";
         } else {
             redirectAttributes.addFlashAttribute("message", "An error occurred when trying to delete a tourist with ID: " + id);

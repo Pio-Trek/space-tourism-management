@@ -49,8 +49,8 @@ public class FlightServiceImpl implements FlightService {
 
 
     @Override
-    public void removeFlight(Long id) {
+    public boolean removeFlight(Long id) {
         log.info("Deleting flight with id: {}", id);
-        flightDAO.removeFight(id);
+        return flightDAO.removeFight(id);
     }
 }

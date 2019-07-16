@@ -1,7 +1,6 @@
 package eu.treative.spacetourism.dao;
 
 import eu.treative.spacetourism.model.Tourist;
-import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
@@ -15,5 +14,5 @@ public interface TouristDAO {
 
     Tourist updateTourist(Tourist tourist, Long id);
 
-    HttpStatus removeTourist(Long id);
+    boolean removeTourist(Long id);
 }

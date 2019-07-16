@@ -82,12 +82,13 @@ public class FlightDAOImpl implements FlightDAO {
     }
 
     @Override
-    public void removeFight(Long id) {
+    public boolean removeFight(Long id) {
         try {
-            client.getRestTemplate().exchange
-                    (URLContants.URL_FLIGHT + "/" + id, HttpMethod.DELETE, null, String.class);
+            return client.getRestTemplate().exchange
+                    (URLContants.URL_FLIGHT + "/" + id, HttpMethod.DELETE, null, String.class).getStatusCode().is2xxSuccessful();
         } catch (final HttpClientErrorException e) {
             log.error("Couldn't delete flight with id: {}. Error message: {}", id, e.getResponseBodyAsString());
         }
+        return false;
     }
 }

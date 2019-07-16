@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.HttpClientErrorException;
 
@@ -56,13 +55,13 @@ public class TouristDAOImpl implements TouristDAO {
     }
 
     @Override
-    public HttpStatus removeTourist(Long id) {
+    public boolean removeTourist(Long id) {
         try {
             return client.getRestTemplate().exchange
-                    (URLContants.URL_TOURIST + "/" + id, HttpMethod.DELETE, null, String.class).getStatusCode();
+                    (URLContants.URL_TOURIST + "/" + id, HttpMethod.DELETE, null, String.class).getStatusCode().is2xxSuccessful();
         } catch (final HttpClientErrorException e) {
             log.error("Couldn't delete tourist with id: {}. Error message: {}", id, e.getResponseBodyAsString());
         }
-        return HttpStatus.NOT_FOUND;
+        return false;
     }
 }

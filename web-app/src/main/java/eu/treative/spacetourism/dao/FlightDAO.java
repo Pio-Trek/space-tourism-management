@@ -14,6 +14,6 @@ public interface FlightDAO {
 
     Flight updateFlight(Flight flight, Long id);
 
-    void removeFight(Long id);
+    boolean removeFight(Long id);
 
 }
