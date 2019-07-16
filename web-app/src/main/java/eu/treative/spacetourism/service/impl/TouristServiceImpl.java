@@ -34,15 +34,17 @@ public class TouristServiceImpl implements TouristService {
     }
 
     @Override
-    public Tourist addTourist(Tourist flight) {
-        Tourist savedTourist = touristDAO.addTourist(flight);
+    public Tourist addTourist(Tourist tourist) {
+        Tourist savedTourist = touristDAO.addTourist(tourist);
         log.info("Saving {}", savedTourist);
         return savedTourist;
     }
 
     @Override
-    public Tourist updateTourist(Tourist flight, Long id) {
-        return null;
+    public Tourist updateTourist(Tourist tourist, Long id) {
+        Tourist updateTourist = touristDAO.updateTourist(tourist, id);
+        log.info("Updating {}", updateTourist);
+        return updateTourist;
     }
 
     @Override

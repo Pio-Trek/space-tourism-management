@@ -69,7 +69,16 @@ public class TouristDAOImpl implements TouristDAO {
 
     @Override
     public Tourist updateTourist(Tourist tourist, Long id) {
-        return null;
+        Tourist responseTourist = new Tourist();
+        try {
+            HttpEntity<Tourist> request = new HttpEntity<>(tourist);
+            responseTourist = client.getRestTemplate()
+                    .exchange(Constant.URL_TOURIST + "/" + id, HttpMethod.PUT, request, Tourist.class)
+                    .getBody();
+        } catch (final HttpClientErrorException e) {
+            log.error("Couldn't update a tourist. Error message: {}", e.getResponseBodyAsString());
+        }
+        return responseTourist;
     }
 
     @Override

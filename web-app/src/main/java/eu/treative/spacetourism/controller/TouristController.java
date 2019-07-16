@@ -45,6 +45,22 @@ public class TouristController {
         return "tourist/add-amend";
     }
 
+    @GetMapping("/{id}/amend")
+    public String amendTourist(@PathVariable Long id, RedirectAttributes redirectAttributes, @ModelAttribute("errorMessage") String errors, Model model) {
+
+        Tourist tourist = touristService.getTourist(id);
+
+        if (tourist != null) {
+            model.addAttribute("tourist", tourist);
+            model.addAttribute("action", Constant.ACTION_AMEND);
+            model.addAttribute("errors", errors);
+            return "tourist/add-amend";
+        } else {
+            redirectAttributes.addFlashAttribute("message", "An error occurred when trying to amend a tourist.");
+            return "redirect:/tourist";
+        }
+    }
+
     @PostMapping("/add-amend")
     public String addOrAmendTourist(@Valid @ModelAttribute("tourist") TouristFromModel touristFromModel, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
 

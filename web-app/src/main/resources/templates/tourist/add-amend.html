@@ -49,31 +49,58 @@
     </div>
     <!--First and last name END-->
 
-    <!--Pet gender input-->
+    <!--Gender input-->
+    <!--    <div class="col-lg-5 text-center col-md-5 ml-auto mr-auto">
+          <label><i class="fas fa-venus-mars"></i> Gender</label>
+          <div class="form-group">
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+              <label class="button-gender btn btn-outline-info btn-lg"
+                     id="male-gender">
+                <input type="radio"
+                       th:field="*{gender}"
+                       class="form-check-input" required
+                       th:value="${T(eu.treative.spacetourism.model.Gender).Male}"
+                       th:text="${T(eu.treative.spacetourism.model.Gender).Male}"/>
+              </label>
+              <label class="button-gender btn btn-outline-info btn-lg"
+                     id="female-gender">
+                <input type="radio"
+                       th:field="*{gender}"
+                       class="form-check-input" required
+                       th:value="${T(eu.treative.spacetourism.model.Gender).Female}"
+                       th:text="${T(eu.treative.spacetourism.model.Gender).Female}"/>
+              </label>
+            </div>
+          </div>
+        </div>-->
+
     <div class="col-lg-5 text-center col-md-5 ml-auto mr-auto">
       <label><i class="fas fa-venus-mars"></i> Gender</label>
       <div class="form-group">
         <div class="btn-group btn-group-toggle" data-toggle="buttons">
-          <label class="button-gender btn btn-outline-info btn-lg"
+          <label class="button-gender btn btn-lg"
+                 th:classappend="*{gender == T(eu.treative.spacetourism.model.Gender).Male} ? 'btn-info' : 'btn-outline-info'"
                  id="male-gender">
             <input type="radio"
                    th:field="*{gender}"
-                   class="form-check-input" required
+                   class="form-check-input"
                    th:value="${T(eu.treative.spacetourism.model.Gender).Male}"
                    th:text="${T(eu.treative.spacetourism.model.Gender).Male}"/>
           </label>
-          <label class="button-gender btn btn-outline-info btn-lg"
+          <label class="button-gender btn btn-lg"
+                 th:classappend="*{gender == T(eu.treative.spacetourism.model.Gender).Female} ? 'btn-info' : 'btn-outline-info'"
                  id="female-gender">
             <input type="radio"
                    th:field="*{gender}"
-                   class="form-check-input" required
+                   class="form-check-input"
                    th:value="${T(eu.treative.spacetourism.model.Gender).Female}"
                    th:text="${T(eu.treative.spacetourism.model.Gender).Female}"/>
           </label>
         </div>
       </div>
     </div>
-    <!--Pet gender input END-->
+
+    <!--Gender input END-->
 
     <!--First and last name input-->
     <div class="col-md-4 text-center ml-auto mr-auto">
@@ -100,7 +127,7 @@
     </div>
     <!--Departure date input END-->
 
-    <!--Pet description input-->
+    <!--Remarks description input-->
     <div class="col-lg-6 text-center col-md-6 ml-auto mr-auto">
       <label for="textarea"><i class="fas fa-comment-alt mr-1"></i>&nbsp;Remarks</label>
       <div class="form-group">
@@ -110,7 +137,7 @@
         <div id="textarea_remarks" class="small"></div>
       </div>
     </div>
-    <!--Pet description input END-->
+    <!--Remarks description input END-->
 
     <!--SUBMIT button-->
     <div class="col-lg-3 text-center col-md-3 ml-auto mr-auto mt-5">

@@ -46,7 +46,7 @@ public class FlightController {
     }
 
     @GetMapping("/{id}/amend")
-    public String addFlight(@PathVariable Long id, RedirectAttributes redirectAttributes, @ModelAttribute("errorMessage") String errors, Model model) {
+    public String amendFlight(@PathVariable Long id, RedirectAttributes redirectAttributes, @ModelAttribute("errorMessage") String errors, Model model) {
 
         Flight flight = flightService.getFlight(id);
 
