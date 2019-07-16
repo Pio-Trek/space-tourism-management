@@ -1,7 +1,9 @@
 package eu.treative.spacetourism.controller;
 
+import eu.treative.spacetourism.model.Flight;
 import eu.treative.spacetourism.model.Tourist;
 import eu.treative.spacetourism.model.TouristFromModel;
+import eu.treative.spacetourism.service.FlightService;
 import eu.treative.spacetourism.service.TouristService;
 import eu.treative.spacetourism.utils.Constant;
 import lombok.extern.slf4j.Slf4j;
@@ -23,10 +25,12 @@ import java.util.List;
 public class TouristController {
 
     private final TouristService touristService;
+    private final FlightService flightService;
 
     @Autowired
-    public TouristController(TouristService touristService) {
+    public TouristController(TouristService touristService, FlightService flightService) {
         this.touristService = touristService;
+        this.flightService = flightService;
     }
 
     @GetMapping
@@ -116,6 +120,45 @@ public class TouristController {
         }
 
         return "redirect:/tourist";
+    }
+
+    @GetMapping("/{id}/flight")
+    public String touristFlightsList(@PathVariable Long id, @ModelAttribute("message") String message, Model model) {
+        List<Flight> currentTouristFlights = flightService.getFlightsByTouristsId(id);
+        List<Flight> allOtherFlights = flightService.getAllFlights();
+        allOtherFlights.removeAll(currentTouristFlights);
+        model.addAttribute("currentTouristFlights", currentTouristFlights);
+        model.addAttribute("allOtherFlights", allOtherFlights);
+        model.addAttribute("touristId", id);
+        model.addAttribute("message", message);
+        return "/tourist/flight-list";
+    }
+
+    @PostMapping("{touristId}/flight/{flightId}/add")
+    public String addFlightToTourist(@PathVariable Long flightId, @PathVariable Long touristId, RedirectAttributes redirectAttributes) {
+        Flight flight = flightService.addTouristToFlight(touristId, flightId);
+
+        if (flight != null) {
+            redirectAttributes.addFlashAttribute("message", "You have successfully added flight with ID " + flightId);
+            return "redirect:/tourist/" + touristId + "/flight";
+        } else {
+            redirectAttributes.addFlashAttribute("message", "An error occurred when trying to add flight with ID " + flightId + " to the tourist.");
+            return "redirect:/tourist";
+        }
+    }
+
+    @PostMapping("{touristId}/flight/{flightId}/delete")
+    public String removeFlightFromTourist(@PathVariable Long flightId, @PathVariable Long touristId, RedirectAttributes redirectAttributes) {
+        Flight flight = flightService.removeTouristFromFlight(touristId, flightId);
+
+        if (flight != null) {
+            redirectAttributes.addFlashAttribute("message", "You have successfully removed flight with ID " + flightId);
+            return "redirect:/tourist/" + touristId + "/flight";
+        } else {
+            redirectAttributes.addFlashAttribute("message", "An error occurred when trying to remove a flight with ID " + flightId + " from the tourist.");
+            return "redirect:/tourist";
+        }
+
     }
 
     @GetMapping("/{id}/delete")

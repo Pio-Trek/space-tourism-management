@@ -10,6 +10,8 @@ public interface FlightService {
 
     Flight getFlight(Long id);
 
+    List<Flight> getFlightsByTouristsId(Long id);
+
     Flight addFlight(Flight tourist);
 
     Flight updateFlightDetails(Flight tourist, Long id);
@@ -19,7 +21,5 @@ public interface FlightService {
     Flight removeTouristFromFlight(Long touristId, Long flightId);
 
     void removeFlight(Long id);
-
-    List<Flight> getFlightsByTouristsId(Long id);
 
 }

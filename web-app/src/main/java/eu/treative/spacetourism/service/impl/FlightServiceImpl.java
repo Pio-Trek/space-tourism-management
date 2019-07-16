@@ -34,6 +34,12 @@ public class FlightServiceImpl implements FlightService {
     }
 
     @Override
+    public List<Flight> getFlightsByTouristsId(Long id) {
+        log.info("Getting all flights by tourist id: {}", id);
+        return flightDAO.getFlightsByTouristsId(id);
+    }
+
+    @Override
     public Flight addFlight(Flight flight) {
         Flight savedFlight = flightDAO.addFlight(flight);
         log.info("Saving {}", savedFlight);

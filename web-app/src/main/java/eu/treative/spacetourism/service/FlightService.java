@@ -10,6 +10,8 @@ public interface FlightService {
 
     Flight getFlight(Long id);
 
+    List<Flight> getFlightsByTouristsId(Long id);
+
     Flight addFlight(Flight flight);
 
     Flight updateFlight(Flight flight, Long id);

@@ -54,6 +54,20 @@ public class FlightDAOImpl implements FlightDAO {
     }
 
     @Override
+    public List<Flight> getFlightsByTouristsId(Long id) {
+        try {
+            return client.getRestTemplate().exchange(
+                    Constant.URL_FLIGHT + "/tourist/" + id,
+                    HttpMethod.GET, null,
+                    new ParameterizedTypeReference<List<Flight>>() {
+                    }).getBody();
+        } catch (final HttpClientErrorException e) {
+            log.error("Couldn't get list of flights by tourist id. Error message: {}", e.getResponseBodyAsString());
+            return new ArrayList<>();
+        }
+    }
+
+    @Override
     public Flight addFlight(Flight flight) {
         Flight responseFlight = new Flight();
         try {

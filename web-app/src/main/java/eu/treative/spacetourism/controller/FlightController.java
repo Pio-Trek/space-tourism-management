@@ -162,7 +162,6 @@ public class FlightController {
             redirectAttributes.addFlashAttribute("message", "An error occurred when trying to add tourist with ID " + touristId + " to the flight.");
             return "redirect:/flight";
         }
-
     }
 
     @PostMapping("{flightId}/tourist/{touristId}/delete")
@@ -176,7 +175,6 @@ public class FlightController {
             redirectAttributes.addFlashAttribute("message", "An error occurred when trying to remove a tourist with ID " + touristId + " from the flight.");
             return "redirect:/flight";
         }
-
     }
 
     @GetMapping("/{id}/delete")

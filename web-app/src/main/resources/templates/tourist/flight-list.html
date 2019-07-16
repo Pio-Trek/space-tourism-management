@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="fragments/header :: header"/>
+
+<body>
+
+<div th:replace="fragments/header :: navigation"/>
+
+<!-- Page Content -->
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12 text-center">
+
+      <!-- If tourist list is empty -->
+      <h1 class="mt-5 mb-5" th:if="${currentTouristFlights.empty}"
+          th:utext="'There is no booked flights for the tourist with ID: ' + ${touristId} + '<br />  Please add a first one!'"></h1>
+
+      <!-- Else -->
+      <h1 class="mt-5 mb-5" th:unless="${currentTouristFlights.empty}"
+          th:text="'Flights for the tourist ID: ' + ${touristId}"></h1>
+    </div>
+
+    <th:block th:unless="${message.empty}">
+      <div class="col-md-6 ml-auto mr-auto alert alert-dismissible alert-success mb-5">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <span th:text="${message}"></span>
+      </div>
+    </th:block>
+
+    <table class="table table-hover" th:unless="${currentTouristFlights.empty}">
+      <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Departure</th>
+        <th scope="col">Arrival</th>
+        <th scope="col">Ticket price</th>
+        <th scope="col">Number of seats</th>
+        <th scope="col">Reserved seats</th>
+        <th scope="col" style="width: 180px">Action</th>
+      </tr>
+      </thead>
+      <tbody>
+
+      <th:block th:each="flight : ${currentTouristFlights}">
+
+        <tr>
+          <th scope="row" th:text="${flight.id}">Tourist ID</th>
+          <td th:text="${#temporals.format(flight.departure, 'yyyy-MM-dd HH:mm')}">Departure</td>
+          <td th:text="${#temporals.format(flight.arrival, 'yyyy-MM-dd HH:mm')}">Arrival</td>
+          <td th:text="${flight.ticketPrice}">Ticket price</td>
+          <td th:text="${flight.numberOfSeats}">Number of seats</td>
+          <td th:text="${flight.tourists.size()}"></td>
+          <td>
+
+            <form autocomplete="off" action="#"
+                  th:action="@{'/tourist/' +${touristId}+ '/flight/'+${flight.id}+'/delete'}" method="post">
+              <input type="submit" value="Remove from the tourist" class="btn btn-danger btn-sm"/>
+
+            </form>
+
+          </td>
+        </tr>
+
+      </th:block>
+
+      </tbody>
+    </table>
+
+  </div>
+
+  <div class="row">
+
+    <div class="col-lg-12 text-center">
+
+      <h1 class="mt-5 mb-5" th:unless="${allOtherFlights.empty}"
+          th:text="'Flights that are not booked by the current tourist'"></h1>
+
+    </div>
+
+    <table class="table table-hover" th:unless="${allOtherFlights.empty}">
+      <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Departure</th>
+        <th scope="col">Arrival</th>
+        <th scope="col">Ticket price</th>
+        <th scope="col">Number of seats</th>
+        <th scope="col">Reserved seats</th>
+        <th scope="col" style="width: 180px">Action</th>
+      </tr>
+      </thead>
+      <tbody>
+
+      <th:block th:each="otherFlights : ${allOtherFlights}">
+
+        <tr>
+          <th scope="row" th:text="${otherFlights.id}">Tourist ID</th>
+          <td th:text="${#temporals.format(otherFlights.departure, 'yyyy-MM-dd HH:mm')}">Departure</td>
+          <td th:text="${#temporals.format(otherFlights.arrival, 'yyyy-MM-dd HH:mm')}">Arrival</td>
+          <td th:text="${otherFlights.ticketPrice}">Ticket price</td>
+          <td th:text="${otherFlights.numberOfSeats}">Number of seats</td>
+          <td th:text="${otherFlights.tourists.size()}"></td>
+          <td>
+
+            <form autocomplete="off" action="#"
+                  th:action="@{'/tourist/' +${touristId}+ '/flight/'+${otherFlights.id}+'/add'}" method="post">
+              <input th:if="${otherFlights.numberOfSeats} == ${otherFlights.tourists.size()}" disabled type="submit"
+                     value="The flight is full" class="btn btn-secondary btn-sm"/>
+              <input th:unless="${otherFlights.numberOfSeats} == ${otherFlights.tourists.size()}" type="submit"
+                     value="Add to the tourist" class="btn btn-info btn-sm"/>
+            </form>
+
+          </td>
+        </tr>
+
+      </th:block>
+
+      </tbody>
+    </table>
+
+  </div>
+
+  <a th:href="@{/tourist}" class="btn btn-success"> <i class="fas fa-arrow-circle-left mr-1"></i> Back to List</a>
+
+</div>
+
+<div th:replace="fragments/footer :: scripts"/>
+
+</body>
+</html>
