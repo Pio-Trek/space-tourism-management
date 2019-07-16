@@ -41,7 +41,15 @@ public class TouristDAOImpl implements TouristDAO {
 
     @Override
     public Tourist getTourist(Long id) {
-        return null;
+        Tourist responseTourist = null;
+        try {
+            responseTourist = client.getRestTemplate()
+                    .getForEntity(URLContants.URL_TOURIST + "/" + id, Tourist.class).getBody();
+        } catch (final HttpClientErrorException e) {
+            log.error("Couldn't get tourist with id: {}. Error message: {}", id, e.getResponseBodyAsString());
+        }
+
+        return responseTourist;
     }
 
     @Override
