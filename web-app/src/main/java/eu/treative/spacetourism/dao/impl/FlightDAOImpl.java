@@ -82,6 +82,18 @@ public class FlightDAOImpl implements FlightDAO {
     }
 
     @Override
+    public Flight removeTouristFromFlight(Long touristId, Long flightId) {
+        Flight flight = null;
+        try {
+            flight = client.getRestTemplate()
+                    .exchange(Constant.URL_FLIGHT + "/" + flightId + "/tourist/" + touristId, HttpMethod.DELETE, null, Flight.class).getBody();
+        } catch (final HttpClientErrorException e) {
+            log.error("Couldn't remove tourist with id {} from the flight with id: {}. Error message: {}", touristId, flightId, e.getResponseBodyAsString());
+        }
+        return flight;
+    }
+
+    @Override
     public boolean removeFight(Long id) {
         try {
             return client.getRestTemplate().exchange

@@ -2,6 +2,7 @@ package eu.treative.spacetourism.controller;
 
 import eu.treative.spacetourism.model.Flight;
 import eu.treative.spacetourism.model.FlightFormModel;
+import eu.treative.spacetourism.model.Tourist;
 import eu.treative.spacetourism.service.FlightService;
 import eu.treative.spacetourism.utils.Constant;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @Controller
@@ -126,6 +128,32 @@ public class FlightController {
         }
 
         return "redirect:/flight";
+    }
+
+    @GetMapping("/{id}/tourist")
+    public String flightTouristList(@PathVariable Long id, @ModelAttribute("message") String message, Model model) {
+        Set<Tourist> tourists = flightService.getFlight(id).getTourists();
+        model.addAttribute("touristList", tourists);
+        model.addAttribute("flightId", id);
+        model.addAttribute("message", message);
+        return "/flight/tourist-list";
+    }
+
+    @PostMapping("{flightId}/tourist/{touristId}/delete")
+    public String removeTouristFromFlight(@PathVariable Long flightId, @PathVariable Long touristId, Model model, RedirectAttributes redirectAttributes) {
+        Flight flight = flightService.removeTouristFromFlight(touristId, flightId);
+
+        if (flight != null) {
+            Set<Tourist> tourists = flight.getTourists();
+            model.addAttribute("touristList", tourists);
+            model.addAttribute("flightId", flight.getId());
+            model.addAttribute("message", "You have successfully removed tourist with ID " + touristId + " from the flight.");
+            return "/flight/tourist-list";
+        } else {
+            redirectAttributes.addFlashAttribute("message", "An error occurred when trying to remove a tourist with ID " + touristId + " from the flight.");
+            return "redirect:/flight";
+        }
+
     }
 
     @GetMapping("/{id}/delete")

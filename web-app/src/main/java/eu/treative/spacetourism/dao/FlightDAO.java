@@ -14,6 +14,8 @@ public interface FlightDAO {
 
     Flight updateFlight(Flight flight, Long id);
 
+    Flight removeTouristFromFlight(Long touristId, Long flightId);
+
     boolean removeFight(Long id);
 
 }
