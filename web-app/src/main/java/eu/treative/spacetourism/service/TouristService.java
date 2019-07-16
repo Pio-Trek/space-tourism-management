@@ -1,6 +1,7 @@
 package eu.treative.spacetourism.service;
 
 import eu.treative.spacetourism.model.Tourist;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
@@ -14,6 +15,6 @@ public interface TouristService {
 
     Tourist updateTourist(Tourist flight, Long id);
 
-    void removeTourist(Long id);
+    HttpStatus removeTourist(Long id);
 
 }

@@ -5,6 +5,7 @@ import eu.treative.spacetourism.model.Tourist;
 import eu.treative.spacetourism.service.TouristService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -42,7 +43,8 @@ public class TouristServiceImpl implements TouristService {
     }
 
     @Override
-    public void removeTourist(Long id) {
-
+    public HttpStatus removeTourist(Long id) {
+        log.info("Deleting tourist with id: {}", id);
+        return touristDAO.removeTourist(id);
     }
 }

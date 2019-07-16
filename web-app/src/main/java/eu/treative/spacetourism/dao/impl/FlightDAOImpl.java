@@ -89,6 +89,5 @@ public class FlightDAOImpl implements FlightDAO {
         } catch (final HttpClientErrorException e) {
             log.error("Couldn't delete flight with id: {}. Error message: {}", id, e.getResponseBodyAsString());
         }
-
     }
 }
