@@ -9,8 +9,8 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>eu.treative</groupId>
-	<artifactId>space-tourism</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>space-tourism-rest-api</artifactId>
+	<version>1.0.TEST</version>
 	<name>space-tourism</name>
 	<description>Space Tourism Management REST API Project</description>
 
