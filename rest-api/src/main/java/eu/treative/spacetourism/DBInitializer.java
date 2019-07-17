@@ -63,7 +63,7 @@ public class DBInitializer implements CommandLineRunner {
                 add(tourist2);
             }});
 
-            Flight flight2 = new Flight(LocalDateTime.of(2019, Month.AUGUST, 05, 12, 00), LocalDateTime.of(2019, Month.AUGUST, 05, 18, 20), 10, 255.99);
+            Flight flight2 = new Flight(LocalDateTime.of(2019, Month.AUGUST, 05, 12, 00), LocalDateTime.of(2019, Month.AUGUST, 06, 18, 20), 10, 255.99);
 
             flight2.setTourists(new HashSet<Tourist>() {{
                 add(tourist2);
