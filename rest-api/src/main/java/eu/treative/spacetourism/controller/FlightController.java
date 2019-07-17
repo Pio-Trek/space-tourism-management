@@ -14,54 +14,54 @@ import java.util.List;
 @RequestMapping(URLContants.API_FLIGHT)
 public class FlightController {
 
-    private final FlightService service;
+    private final FlightService flightService;
 
     @Autowired
-    public FlightController(FlightService service) {
-        this.service = service;
+    public FlightController(FlightService flightService) {
+        this.flightService = flightService;
     }
 
     @GetMapping
     public List<Flight> getAllFlights() {
-        return service.getAllFlights();
+        return flightService.getAllFlights();
     }
 
     @GetMapping("/{id}")
     public Flight getFlight(@PathVariable Long id) {
-        return service.getFlight(id);
+        return flightService.getFlight(id);
     }
 
     @GetMapping("/tourist/{id}")
     public List<Flight> getFlightsByTouristsId(@PathVariable Long id) {
-        return service.getFlightsByTouristsId(id);
+        return flightService.getFlightsByTouristsId(id);
     }
 
     @PostMapping
     public Flight createFlight(@RequestBody FlightDTO flightDTO) {
         ModelMapper mapper = new ModelMapper();
         Flight flight = mapper.map(flightDTO, Flight.class);
-        return service.addFlight(flight);
+        return flightService.addFlight(flight);
     }
 
     @PutMapping("/{id}")
     public Flight updateFlightDetails(@RequestBody FlightDTO flightDTO, @PathVariable Long id) {
         ModelMapper mapper = new ModelMapper();
         Flight flight = mapper.map(flightDTO, Flight.class);
-        return service.updateFlightDetails(flight, id);
+        return flightService.updateFlightDetails(flight, id);
     }
 
     @PutMapping("/{flightId}/tourist/{touristId}")
     public Flight addTouristToFlight(@PathVariable Long flightId, @PathVariable Long touristId) {
-        return service.addTouristToFlight(flightId, touristId);
+        return flightService.addTouristToFlight(flightId, touristId);
     }
 
     @DeleteMapping("/{flightId}/tourist/{touristId}")
     public Flight removeTouristFromFlight(@PathVariable Long flightId, @PathVariable Long touristId) {
-        return service.removeTouristFromFlight(touristId, flightId);
+        return flightService.removeTouristFromFlight(touristId, flightId);
     }
 
     @DeleteMapping("/{id}")
     public void deleteFlight(@PathVariable Long id) {
-        service.removeFlight(id);
+        flightService.removeFlight(id);
     }
 }

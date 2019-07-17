@@ -14,39 +14,39 @@ import java.util.List;
 @RequestMapping(URLContants.API_TOURIST)
 public class TouristController {
 
-    private final TouristService service;
+    private final TouristService touristService;
 
     @Autowired
-    public TouristController(TouristService service) {
-        this.service = service;
+    public TouristController(TouristService touristService) {
+        this.touristService = touristService;
     }
 
     @GetMapping
     public List<Tourist> getAllTourists() {
-        return service.getAllTourists();
+        return touristService.getAllTourists();
     }
 
     @GetMapping("/{id}")
     public Tourist getTourist(@PathVariable Long id) {
-        return service.getTourist(id);
+        return touristService.getTourist(id);
     }
 
     @PostMapping
     public Tourist createTourist(@RequestBody TouristDTO touristDTO) {
         ModelMapper mapper = new ModelMapper();
         Tourist tourist = mapper.map(touristDTO, Tourist.class);
-        return service.addTourist(tourist);
+        return touristService.addTourist(tourist);
     }
 
     @PutMapping("/{id}")
     public Tourist updateTouristDetails(@RequestBody TouristDTO touristDTO, @PathVariable Long id) {
         ModelMapper mapper = new ModelMapper();
         Tourist tourist = mapper.map(touristDTO, Tourist.class);
-        return service.updateTouristDetails(tourist, id);
+        return touristService.updateTouristDetails(tourist, id);
     }
 
     @DeleteMapping("/{id}")
     public void deleteTourist(@PathVariable Long id) {
-        service.removeTourist(id);
+        touristService.removeTourist(id);
     }
 }
